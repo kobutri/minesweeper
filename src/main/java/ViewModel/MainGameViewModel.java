@@ -33,6 +33,7 @@ public class MainGameViewModel {
     }
     private void Generate()
     {
+        // Werteübergabe aus Slidern um Spiel zu erstellen
         MainGamePane.setScaleX(SliderX.getValue());
         MainGamePane.setScaleY(SliderY.getValue());
         LabelBombs.setTextContent("" + SliderBombs.getValue());

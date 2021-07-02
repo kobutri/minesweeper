@@ -28,6 +28,7 @@ public class Main  extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Menu Stage start
         var fxml = getClass().getResource("menu.fxml");
         assert fxml != null;
         Parent root = FXMLLoader.load(fxml);
@@ -39,6 +40,7 @@ public class Main  extends Application {
 
 
     public void StartMainGame(javafx.event.ActionEvent actionEvent) {
+        // Starten des eigentlichen Spiels aus der Menu Stage heraus
         HideScene =  ((Node)(actionEvent.getSource())).getScene().getWindow();
         ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
         try {
