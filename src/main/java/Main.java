@@ -31,7 +31,9 @@ public class Main  extends Application {
         // Menu Stage start
         var fxml = getClass().getResource("menu.fxml");
         assert fxml != null;
+        FXMLLoader loader = new FXMLLoader(fxml);
         Parent root = FXMLLoader.load(fxml);
+        loader.getController();
         primaryStage.setScene(new Scene(root, 640, 480));
         primaryStage.show();
 
