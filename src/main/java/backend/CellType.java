@@ -1,6 +1,6 @@
 package backend;
 
-public enum Cell {
+public enum CellType {
     EMPTY,
     BOMB,
 }

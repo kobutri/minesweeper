@@ -5,36 +5,26 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Board {
-    private final int width;
-    private final int height;
-    private final int numBombs;
+    private final BoardInitializer boardInitializer;
 
 
-    private final Cell[] cells;
+    private final CellType[] cellTypes;
 
-    public Board(int width, int height, int numBombs, int xNotABomb, int yNotABomb) {
-        this.width = width;
-        this.height = height;
-        this.numBombs = numBombs;
-
-        assert width*height < numBombs;
-
-        cells = new Cell[width*height];
-        Arrays.fill(cells, Cell.EMPTY);
-
-        var bombs = generateBombs(cells.length, numBombs, indexFromIndex2D(xNotABomb, yNotABomb));
-        for (var bomb : bombs) {
-            cells[bomb] = Cell.BOMB;
+    public Board(BoardInitializer boardInitializer) throws IllegalArgumentException {
+        if(!boardInitializer.isValid()){
+            throw new IllegalArgumentException("invalid board initializer");
         }
-    }
+        this.boardInitializer = boardInitializer;
 
-    public int indexFromIndex2D(int x, int y) throws IndexOutOfBoundsException {
-        if (x < 0) throw new IndexOutOfBoundsException();
-        if (y < 0) throw new IndexOutOfBoundsException();
-        if (x > width) throw new IndexOutOfBoundsException();
-        if (y > height) throw new IndexOutOfBoundsException();
-        
-        return y * width + x;
+        assert boardInitializer.getWidth()*boardInitializer.getHeight() < boardInitializer.getNumBombs();
+
+        cellTypes = new CellType[boardInitializer.getWidth()*boardInitializer.getHeight()];
+        Arrays.fill(cellTypes, CellType.EMPTY);
+
+        var bombs = generateBombs(cellTypes.length, boardInitializer.getNumBombs(), boardInitializer.indexFromIndex2D(boardInitializer.getxNotABomb(), boardInitializer.getyNotABomb()));
+        for (var bomb : bombs) {
+            cellTypes[bomb] = CellType.BOMB;
+        }
     }
     
     public int neighboringBombs(int x, int y) {
@@ -51,8 +41,12 @@ public class Board {
         return numBombs;
     }
     
-    public boolean isBomb(int x, int y) throws IndexOutOfBoundsException {
-        return cells[indexFromIndex2D(x, y)] == Cell.BOMB;
+    public boolean isBomb(int x, int y) {
+        try {
+            return cellTypes[boardInitializer.indexFromIndex2D(x, y)] == CellType.BOMB;
+        } catch (IndexOutOfBoundsException e){
+            return false;
+        }
     }
 
     private static ArrayList<Integer> generateBombs(int size, int numBombs, int notABomb) {
@@ -70,5 +64,9 @@ public class Board {
             chosenIndices.add(chosenIndex);
         }
         return chosenIndices;
+    }
+
+    public BoardInitializer getBoardInitializer() {
+        return boardInitializer;
     }
 }

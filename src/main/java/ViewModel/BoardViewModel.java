@@ -1,7 +1,6 @@
 package ViewModel;
 
 import Model.BoardModel;
-import backend.CellState;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -17,16 +16,8 @@ public class BoardViewModel {
     private BoardModel boardModel;
 
     public BoardViewModel() {
-        boardModel.cells.addListener((ListChangeListener<? super CellState>) c -> {
-        });
-    }
-
-    void onClick(MouseEvent event, int x, int y) {
-        if (event.getButton() == MouseButton.PRIMARY) {
-            boardModel.open(x, y);
-        } else (event.getButton() == MouseButton.SECONDARY) {
-            boardModel.flag(x, y);
-        }
+//        boardModel.cells.addListener((ListChangeListener<? super CellState>) c -> {
+//        });
     }
 
 }

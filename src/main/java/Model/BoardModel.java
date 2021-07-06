@@ -1,63 +1,52 @@
 package Model;
 
 import backend.Board;
-import backend.CellState;
+import backend.BoardInitializer;
 import backend.WinState;
 import javafx.collections.ObservableList;
 
 public class BoardModel {
-    public Board board;
-    public ObservableList<CellState> cells;
-    public int width;
-    public int height;
+    private BoardInitializer boardInitializer;
+    private Board board;
+    private ObservableList<CellModel> cells;
 
-    public BoardModel(int width, int height, int numBombs, int xNotABomb, int yNotABomb) {
-        this.board = new Board(width, height, numBombs, xNotABomb, yNotABomb);
-        this.height = height;
-        this.width = width;
-        assert width > 0;
-        assert height > 0;
-        // make cells
+    public BoardModel(BoardInitializer boardInitializer) {
+        assert boardInitializer.isValid();
+        this.boardInitializer = boardInitializer;
+        this.board = new Board(boardInitializer);
+        // generate numbers while initializing cells
     }
 
-    public void flag(int x, int y) {
-        if (!cells.get(board.indexFromIndex2D(x, y)).isOpen()) {
-            cells.get(board.indexFromIndex2D(x, y)).setFlagged(true);
-        }
+    public Board getBoard() {
+        return board;
     }
 
-    public WinState open(int x, int y) {
-        if (board.isBomb(x, y)){
-            return WinState.LOOSE;
-        } else {
-            cells.get(board.indexFromIndex2D(x, y)).setFlagged(false);
-            int numNeighboringBombs = board.neighboringBombs(x, y);
-            cells.get(board.indexFromIndex2D(x, y)).setOpen(true); // TODO what if is flagged?
-            cells.get(board.indexFromIndex2D(x, y)).setNumber(numNeighboringBombs);
-            if (numNeighboringBombs == 0){
-                for (int i = -1; i < 1; i++) {
-                    for (int j = -1; j < 1; j++) {
-                        open(x+i, y+j);
-                    }
-                }
-            }
-            if (hasWon()) {
-                return WinState.WIN;
-            } else {
-                return WinState.CONTINUE;
-            }
-
-        }
+    public ObservableList<CellModel> getCells() {
+        return cells;
     }
 
-    public boolean hasWon() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (!board.isBomb(x, y) && !cells.get(board.indexFromIndex2D(x, y)).isOpen()) {
-                    return false;
+    public BoardInitializer getBoardInitializer() {
+        return boardInitializer;
+    }
+
+    public void setBoardInitializer(BoardInitializer boardInitializer) {
+        this.boardInitializer = boardInitializer;
+        board = new Board(boardInitializer);
+
+    }
+
+    public WinState hasWon() {
+        for (int x = 0; x < boardInitializer.getWidth(); x++) {
+            for (int y = 0; y < boardInitializer.getHeight(); y++) {
+                if (board.isBomb(x, y) && cells.get(boardInitializer.indexFromIndex2D(x, y)).getOpen().get()){
+                    return WinState.LOOSE;
+                } else if (!board.isBomb(x, y) && !cells.get(boardInitializer.indexFromIndex2D(x, y)).getOpen().get()) {
+                    return WinState.CONTINUE;
                 }
             }
         }
-        return true;
+        return WinState.WIN;
     }
+
+
 }
