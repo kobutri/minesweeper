@@ -37,9 +37,6 @@ public class CellModel {
         return open;
     }
 
-    public void setOpen(boolean open) {
-        this.open.set(open);
-    }
 
     public CellType getType() {
         return type;
@@ -52,9 +49,14 @@ public class CellModel {
     public void open() {
         open.set(true);
         if (numNeighboringBombs == 0) {
-            for (int i = -1; i < 1; i++) {
-                for (int j = -1; j < 1; j++) {
-                    boardModel.getCells().get(boardModel.getBoardInitializer().indexFromIndex2D(x + i, y + j)).open();
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    try {
+                        var index = boardModel.getBoardInitializer().indexFromIndex2D(x + i, y + j);
+                        if (!boardModel.getCells().get(index).getOpen().get() && boardModel.getCells().get(index).getType() != CellType.BOMB ) {
+                            boardModel.getCells().get(index).open();
+                        }
+                    } catch (IndexOutOfBoundsException ignored) { }
                 }
             }
         }

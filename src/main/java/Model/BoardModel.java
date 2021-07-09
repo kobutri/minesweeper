@@ -6,6 +6,9 @@ import backend.CellType;
 import backend.WinState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
+
+import java.util.List;
 
 public class BoardModel {
     private BoardInitializer boardInitializer;
@@ -16,8 +19,19 @@ public class BoardModel {
         assert boardInitializer.isValid();
         this.boardInitializer = boardInitializer;
         this.board = new Board(boardInitializer);
-        for (int x = 0; x < boardInitializer.getWidth(); x++) {
-            for (int y = 0; y < boardInitializer.getHeight(); y++) {
+        for (int y = 0; y < boardInitializer.getWidth(); y++) {
+            for (int x = 0; x < boardInitializer.getHeight(); x++) {
+                cells.add(new CellModel(x, y, false, board.isBomb(x, y) ? CellType.BOMB : CellType.EMPTY, this));
+            }
+        }
+    }
+
+    public BoardModel(BoardInitializer boardInitializer, List<Pair<Integer, Integer>> bombs) {
+        assert boardInitializer.isValid();
+        this.boardInitializer = boardInitializer;
+        this.board = new Board(boardInitializer, bombs);
+        for (int y = 0; y < boardInitializer.getWidth(); y++) {
+            for (int x = 0; x < boardInitializer.getHeight(); x++) {
                 cells.add(new CellModel(x, y, false, board.isBomb(x, y) ? CellType.BOMB : CellType.EMPTY, this));
             }
         }

@@ -4,20 +4,33 @@ import ViewModel.CellViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-import java.awt.*;
-
 public class CellView {
     @FXML
-    Node rect;
+    Node closed;
+
+    @FXML
+    Node open;
+
+    @FXML
+    Node flag;
+
+    @FXML
+    Node bomb;
+
+    @FXML
+    Label number;
 
     public void setViewModel(CellViewModel viewModel) {
         this.viewModel = viewModel;
-        this.viewModel.typeProperty().addListener((observable, oldValue, newValue) -> {
-            // change view according to newValue;
+        viewModel.typeProperty().addListener((observable, oldValue, newValue) -> {
+            setView(newValue);
         });
+        setView(viewModel.getType());
+        number.textProperty().bind(viewModel.numberProperty());
     }
 
     private CellViewModel viewModel;
@@ -28,6 +41,16 @@ public class CellView {
         } else if (event.getButton() == MouseButton.SECONDARY) {
             viewModel.flag();
         }
+    }
+
+    private void setView(CellViewModel.CellViewType type) {
+        closed.setVisible(type == CellViewModel.CellViewType.FLAGGED || type == CellViewModel.CellViewType.CLOSED);
+
+        flag.setVisible(type == CellViewModel.CellViewType.FLAGGED);
+
+        bomb.setVisible(type == CellViewModel.CellViewType.BOMB);
+
+        number.setVisible(type == CellViewModel.CellViewType.NUMBER);
     }
 
 

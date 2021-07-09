@@ -20,9 +20,9 @@ public class BoardView {
     public void initialize() throws IOException {
         boardViewModel = new BoardViewModel();
         var fxml2 = getClass().getClassLoader().getResources("cell.fxml").nextElement();
-        FXMLLoader loader = new FXMLLoader(fxml2);
         boardViewModel.cellViewModels.forEach((integerIntegerPair, cellViewModel) -> {
             try {
+                FXMLLoader loader = new FXMLLoader(fxml2);
                 Node cell = loader.load();
                 CellView controller = loader.getController();
                 controller.setViewModel(cellViewModel);

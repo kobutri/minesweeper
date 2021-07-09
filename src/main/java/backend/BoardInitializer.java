@@ -59,8 +59,8 @@ public final class BoardInitializer {
     public int indexFromIndex2D(int x, int y) throws IndexOutOfBoundsException {
         if (x < 0) throw new IndexOutOfBoundsException();
         if (y < 0) throw new IndexOutOfBoundsException();
-        if (x > width) throw new IndexOutOfBoundsException();
-        if (y > height) throw new IndexOutOfBoundsException();
+        if (x >= width) throw new IndexOutOfBoundsException();
+        if (y >= height) throw new IndexOutOfBoundsException();
 
         return y * width + x;
     }
