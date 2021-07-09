@@ -53,7 +53,7 @@ public class Board {
         ArrayList<Integer> chosenIndices = new ArrayList<>();
         ArrayList<Integer> indices = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            indices.set(i, i);
+            indices.add(i, i);
         }
         indices.removeIf(integer -> integer == notABomb);
 

@@ -8,16 +8,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class CellModel {
     private final int x;
     private final int y;
-
-    public BoardModel getBoardModel() {
-        return boardModel;
-    }
-
     private final BoardModel boardModel;
     private BooleanProperty open;
     private CellType type;
     private int numNeighboringBombs = 0;
-
     public CellModel(int x, int y, boolean open, CellType type, BoardModel boardModel) {
         this.x = x;
         this.y = y;
@@ -25,6 +19,18 @@ public class CellModel {
         this.type = type;
         this.boardModel = boardModel;
         numNeighboringBombs = boardModel.getBoard().neighboringBombs(x, y);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public BoardModel getBoardModel() {
+        return boardModel;
     }
 
     public BooleanProperty getOpen() {
