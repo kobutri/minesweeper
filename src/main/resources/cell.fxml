@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="100.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/11"
+           fx:controller="View.CellView" onMouseClicked="#click">
+    <Rectangle fx:id="open" arcHeight="5.0" arcWidth="5.0" fill="dimgray" height="100.0" stroke="BLACK"
+               strokeType="INSIDE" width="100.0"/>
+    <Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" fx:id="bomb"/>
+    <Label alignment="CENTER" text="Label" textAlignment="CENTER" textFill="#00ff09" StackPane.alignment="CENTER"
+           fx:id="number">
+        <font>
+            <Font name="System Bold" size="38.0"/>
+        </font>
+    </Label>
+    <Rectangle fx:id="closed" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK"
+               strokeType="INSIDE" width="100.0"/>
+    <Circle fill="RED" radius="20.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER" fx:id="flag" visible="false"/>
+</StackPane>
