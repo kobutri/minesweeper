@@ -52,7 +52,11 @@ public class CellViewModel {
 
     public void flag() {
         if (!model.getOpen().get()){
-            type.setValue(CellViewType.FLAGGED);
+            if(type.get() == CellViewType.FLAGGED) {
+                type.setValue(CellViewType.CLOSED);
+            } else {
+                type.setValue(CellViewType.FLAGGED);
+            }
         }
     }
 
