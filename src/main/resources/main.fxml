@@ -34,99 +34,28 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainGameView">
   <children>
-      <AnchorPane prefHeight="48.0" prefWidth="640.0">
+      <AnchorPane fx:id="anchorPaneMenu" prefHeight="48.0" prefWidth="640.0">
          <children>
-            <Button layoutX="587.0" layoutY="2.0" mnemonicParsing="false" text="Restart" />
-            <MenuButton layoutY="2.0" mnemonicParsing="false" text="Options">
+            <Button fx:id="buttonRestart" layoutX="587.0" layoutY="2.0" mnemonicParsing="false" onAction="#restartButton" text="Restart" />
+            <MenuButton fx:id="dropDownButton" layoutY="2.0" mnemonicParsing="false" onContextMenuRequested="#stopTimer" onMouseClicked="#startTimer" text="Options">
               <items>
-                <MenuItem mnemonicParsing="false" text="Save" />
-                <MenuItem mnemonicParsing="false" text="Load" />
-                  <MenuItem mnemonicParsing="false" text="Difficulty" />
-                  <MenuItem mnemonicParsing="false" text="Exit Game" />
+                <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveState" text="Save" />
+                <MenuItem fx:id="loadButton" mnemonicParsing="false" onAction="#loadState" text="Load" />
+                  <MenuItem fx:id="menuButton" mnemonicParsing="false" onAction="#gotoMenu" text="Difficulty" />
+                  <MenuItem fx:id="exitButton" mnemonicParsing="false" onAction="#exit" text="Exit Game" />
               </items>
             </MenuButton>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="45.0" prefWidth="640.0">
+      <AnchorPane fx:id="anchorPaneDisplay" prefHeight="45.0" prefWidth="640.0">
          <children>
             <Label fx:id="LabelBombs" layoutX="159.0" layoutY="10.0" prefHeight="25.0" prefWidth="68.0" text="Bombs:  10" />
             <Label fx:id="LabelCounter" layoutX="424.0" layoutY="9.0" prefHeight="27.0" prefWidth="90.0" text="Counter: 00:00 " />
          </children>
       </AnchorPane>
-    <AnchorPane fx:id="MainGamePane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="386.0" prefWidth="715.0" VBox.vgrow="ALWAYS">
-         <children>
-            <TilePane layoutX="132.0" layoutY="25.0" prefHeight="400.0" prefWidth="400.0">
-               <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="10.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="60.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="110.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="160.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="210.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="260.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="310.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="10.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="10.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="60.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="110.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="160.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="210.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="260.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="310.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="10.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="10.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="60.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="110.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="160.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="210.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="260.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="310.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="360.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="10.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="60.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="110.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="160.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="210.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="260.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="310.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="360.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="10.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="60.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="110.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="160.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="210.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="260.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="310.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="360.0" layoutY="210.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="10.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="60.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="110.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="160.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="210.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="260.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="310.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="360.0" layoutY="260.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="10.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="60.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="110.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="160.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="210.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="260.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="310.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9400" height="50.0" layoutX="10.0" layoutY="310.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="10.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="60.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="110.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b00ff" height="50.0" layoutX="160.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="50.0" layoutX="210.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff200" height="50.0" layoutX="260.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17cd75" height="50.0" layoutX="310.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-               </children>
-            </TilePane>
-         </children></AnchorPane>
+      <AnchorPane fx:id="anchorPaneGrid" prefHeight="316.0" prefWidth="640.0" />
   </children>
 </VBox>

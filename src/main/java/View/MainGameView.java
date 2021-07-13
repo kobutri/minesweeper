@@ -1,4 +1,126 @@
 package View;
 
+import Model.MainGameViewModel;
+import ViewModel.BoardViewModel;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.MenuButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javax.swing.event.ChangeEvent;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 public class MainGameView {
-}
+
+    @FXML
+    AnchorPane anchorPaneGrid;
+
+    @FXML
+    AnchorPane anchorPaneMenu;
+
+    @FXML
+    AnchorPane anchorPaneDisplay;
+
+    @FXML
+    Button buttonRestart;
+
+    @FXML
+    MenuButton dropDownButton;
+
+    @FXML
+    MenuItem saveButton;
+
+    @FXML
+    MenuItem loadButton;
+
+    @FXML
+    MenuItem menuButton;
+
+    @FXML
+    MenuItem exitButton;
+
+    @FXML
+    Label LabelBombs;
+
+    @FXML
+    Label LabelCounter;
+
+    private final Timer timer= new Timer();
+    private long seconds=0;
+    private long minutes=0;
+    IntegerProperty checkChange= new SimpleIntegerProperty(0);
+
+    final ChangeListener changeListenerTimer= new ChangeListener() {
+        @Override
+        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            LabelCounter.setText("Counter:"+minutes+seconds);
+        }
+    };
+
+    public void startTimer(){
+        //Startet Timer bzw Fortsetzen
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                checkChange.addListener(changeListenerTimer);
+                seconds++;
+                checkChange.setValue(seconds);
+                if(seconds==60){
+                    seconds=0;
+                    minutes++;
+                }
+                if(minutes==99&&seconds==60){
+                    endTimer();
+                }
+            }
+        },1000,6000);
+    }
+
+    public void stopTimer(){
+        //pausiert Timer
+        timer.cancel();
+    }
+
+    public void endTimer(){
+        //beendet Timer+Zustand
+        timer.cancel();
+        seconds=0;
+        minutes=0;
+    }
+
+    public void restartButton(){
+        // methode für restart Button
+        endTimer();
+
+    }
+
+    public void gotoMenu(){
+        //soll zum Menü springen
+    }
+
+    public void saveState (){
+
+    }
+
+    public void loadState(){
+
+    }
+
+    public void exit(){
+
+    }
+    }
+
+
+
+

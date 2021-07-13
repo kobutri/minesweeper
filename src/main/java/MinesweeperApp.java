@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 public class MinesweeperApp extends Application {
-    private Window HideScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,18 +22,4 @@ public class MinesweeperApp extends Application {
         primaryStage.show();
     }
 
-    public void StartMainGame(javafx.event.ActionEvent actionEvent) {
-        // Starten des eigentlichen Spiels aus der Menu Stage heraus
-        HideScene = ((Node) (actionEvent.getSource())).getScene().getWindow();
-        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
