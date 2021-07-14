@@ -16,12 +16,12 @@
     </Label>
     <Rectangle fx:id="closed" arcHeight="5.0" arcWidth="5.0" fill="#70d43c" height="100.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
     <Circle fx:id="flag" fill="RED" radius="20.0" stroke="BLACK" strokeType="INSIDE" visible="false" StackPane.alignment="CENTER" />
-   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" visible="false">
+   <ImageView fx:id="imgBomb" fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true" visible="false">
       <image>
          <Image url="@../../../imgs/boomklein.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="11.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false">
+   <ImageView fx:id="imgFlag" fitHeight="95.0" fitWidth="95.0" layoutX="11.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false">
       <image>
          <Image url="@../../../imgs/flaggeklein.png" />
       </image>
