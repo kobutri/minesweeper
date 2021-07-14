@@ -1,28 +1,19 @@
 package View;
 
-import Model.MainGameViewModel;
-import ViewModel.BoardViewModel;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
-import View.MenuView;
 
 public class MainGameView {
 
@@ -42,7 +33,7 @@ public class MainGameView {
     MenuButton dropDownButton;
 
     @FXML
-    MenuItem saveButton;
+    Button saveButton;
 
     @FXML
     MenuItem loadButton;
@@ -63,6 +54,7 @@ public class MainGameView {
     private long seconds=0;
     private long minutes=0;
     IntegerProperty checkChange= new SimpleIntegerProperty(0);
+    IntegerProperty checkFlagChange= new SimpleIntegerProperty(10);
 
     final ChangeListener changeListenerTimer= new ChangeListener() {
         @Override
@@ -70,6 +62,14 @@ public class MainGameView {
             LabelCounter.setText("Counter:"+minutes+seconds);
         }
     };
+
+        final ChangeListener changeListenerFlags= new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                LabelBombs.setText("Flaggen:"+checkFlagChange.getValue());
+            }
+        };
+
 
     public void startTimer(){
         //Startet Timer bzw Fortsetzen
@@ -138,6 +138,11 @@ public class MainGameView {
     public void exit(){
         Stage stage= (Stage) anchorPaneGrid.getScene().getWindow();
         stage.close();
+    }
+
+    public void flagCountSet(){
+        checkFlagChange.addListener(changeListenerFlags);
+        checkFlagChange.subtract(1);
     }
     }
 
