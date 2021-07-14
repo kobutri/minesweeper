@@ -8,6 +8,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +21,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.stage.Stage;
+import View.MenuView;
 
 public class MainGameView {
 
@@ -104,20 +108,36 @@ public class MainGameView {
 
     }
 
-    public void gotoMenu(){
+    public void gotoMenu(javafx.event.ActionEvent actionEvent){
         //soll zum Menü springen
-    }
+        /*HideScene = ((Node) (actionEvent.getSource())).getScene().getWindow();
+        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();*/
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root1));
+                stage.show();
+                Stage stageMenu= (Stage) anchorPaneGrid.getScene().getWindow();
+                stageMenu.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     public void saveState (){
+        //Serialisieren
 
     }
 
     public void loadState(){
+        //Deserialisieren
 
     }
 
     public void exit(){
-
+        Stage stage= (Stage) anchorPaneGrid.getScene().getWindow();
+        stage.close();
     }
     }
 

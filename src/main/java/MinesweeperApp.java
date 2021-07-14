@@ -1,6 +1,7 @@
 import View.BoardView;
 import ViewModel.BoardViewModel;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -21,5 +22,4 @@ public class MinesweeperApp extends Application {
         primaryStage.setScene(new Scene(root, 640, 480));
         primaryStage.show();
     }
-
 }
