@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
@@ -26,10 +27,10 @@ public class CellView {
     Label number;
 
     @FXML
-    Image imgBomb;
+    ImageView imgBomb;
 
     @FXML
-    Image imgFlag;
+    ImageView imgFlag;
 
     public void setViewModel(CellViewModel viewModel) {
         this.viewModel = viewModel;
