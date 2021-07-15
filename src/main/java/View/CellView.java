@@ -26,12 +26,6 @@ public class CellView {
     @FXML
     Label number;
 
-    @FXML
-    ImageView imgBomb;
-
-    @FXML
-    ImageView imgFlag;
-
     public void setViewModel(CellViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.typeProperty().addListener((observable, oldValue, newValue) -> {
