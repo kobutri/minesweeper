@@ -16,10 +16,9 @@ public class BoardViewModel {
     private BoardModel boardModel;
 
     public BoardViewModel() {
-        boardModel = new BoardModel(new BoardInitializer(8, 8, 5, 0, 0));
-        boardModel.getCells().forEach(cellModel -> {
-            cellViewModels.put(new Pair<>(cellModel.getX(), cellModel.getY()), new CellViewModel(cellModel));
-        });
+        boardModel = new BoardModel();
+        boardModel.initializeBoard(new BoardInitializer(8, 8, 10, 0, 0));
+        boardModel.getCells().forEach(cellModel -> cellViewModels.put(new Pair<>(cellModel.getX(), cellModel.getY()), new CellViewModel(cellModel)));
     }
 
 }

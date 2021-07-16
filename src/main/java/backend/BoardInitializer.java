@@ -4,8 +4,6 @@ public final class BoardInitializer {
     private final int width;
     private final int height;
     private final int numBombs;
-    private final int xNotABomb;
-    private final int yNotABomb;
 
     public int getWidth() {
         return width;
@@ -19,27 +17,15 @@ public final class BoardInitializer {
         return numBombs;
     }
 
-    public int getxNotABomb() {
-        return xNotABomb;
-    }
-
-    public int getyNotABomb() {
-        return yNotABomb;
-    }
-
     public BoardInitializer(int width, int height, int numBombs, int xNotABomb, int yNotABomb) {
         this.width = width;
         this.height = height;
         this.numBombs = numBombs;
-        this.xNotABomb = xNotABomb;
-        this.yNotABomb = yNotABomb;
     }
 
     public boolean isValid() {
         return width > 0 && height > 0 &&
-                numBombs < width * height &&
-                xNotABomb >= 0 && xNotABomb < width &&
-                yNotABomb >= 0 && yNotABomb < height;
+                numBombs < width * height;
     }
 
     @Override
@@ -51,9 +37,15 @@ public final class BoardInitializer {
 
         if (width != that.width) return false;
         if (height != that.height) return false;
-        if (numBombs != that.numBombs) return false;
-        if (xNotABomb != that.xNotABomb) return false;
-        return yNotABomb == that.yNotABomb;
+        return numBombs == that.numBombs;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = width;
+        result = 31 * result + height;
+        result = 31 * result + numBombs;
+        return result;
     }
 
     public int indexFromIndex2D(int x, int y) throws IndexOutOfBoundsException {

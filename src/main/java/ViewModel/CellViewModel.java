@@ -1,40 +1,63 @@
 package ViewModel;
 
 import Model.CellModel;
+import backend.CellState;
 import backend.CellType;
 import backend.WinState;
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class CellViewModel {
-    private StringProperty number;
-    private SimpleObjectProperty<CellViewType> type;
+    private StringProperty number = new SimpleStringProperty();
+    private BooleanProperty isOpen = new SimpleBooleanProperty();
+    private BooleanProperty isFlagged = new SimpleBooleanProperty();
+    private BooleanProperty isBomb = new SimpleBooleanProperty();
+    private BooleanProperty showNumber = new SimpleBooleanProperty();
     private CellModel model;
 
     public CellViewModel(CellModel model) {
         this.model = model;
-        type = new SimpleObjectProperty<>(CellViewType.CLOSED);
-        number = new SimpleStringProperty(String.valueOf(model.getNumNeighboringBombs()));
-        model.getOpen().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                if (model.getType() == CellType.BOMB) {
-                    // react to loose
-                    type.setValue(CellViewType.BOMB);
-                }
-                else if (model.getNumNeighboringBombs() == 0) {
-                    type.setValue(CellViewType.BLANK);
-                } else {
-                    type.setValue(CellViewType.NUMBER);
-                }
-            }
-        });
+        this.isOpen.bind(model.cellStateProperty().isEqualTo(CellState.CLOSED).or(model.cellStateProperty().isEqualTo(CellState.FLAGGED)).not());
+        //this.isOpen.set(true);
+        this.isFlagged.bind(model.cellStateProperty().isEqualTo(CellState.FLAGGED));
+        this.isBomb.bind(model.cellStateProperty().isEqualTo(CellState.BOMB));
+        this.isBomb.bind(model.typeProperty().isEqualTo(CellType.BOMB));
+        this.number.bind(model.numNeighboringBombsProperty().asString());
+        this.showNumber.bind(model.cellStateProperty().isEqualTo(CellState.NUMBER));
     }
 
-    public CellViewType getType() {
-        return type.getValue();
+    public boolean isShowNumber() {
+        return showNumber.get();
     }
 
-    public Property<CellViewType> typeProperty() {
-        return type;
+    public BooleanProperty showNumberProperty() {
+        return showNumber;
+    }
+
+    public boolean isIsOpen() {
+        return isOpen.get();
+    }
+
+    public BooleanProperty isOpenProperty() {
+        return isOpen;
+    }
+
+    public boolean isIsFlagged() {
+        return isFlagged.get();
+    }
+
+    public BooleanProperty isFlaggedProperty() {
+        return isFlagged;
+    }
+
+    public boolean isIsBomb() {
+        return isBomb.get();
+    }
+
+    public BooleanProperty isBombProperty() {
+        return isBomb;
     }
 
     public String getNumber() {
@@ -50,21 +73,11 @@ public class CellViewModel {
         return model.getBoardModel().hasWon();
     }
 
-    public void flag() {
-        if (!model.getOpen().get()){
-            if(type.get() == CellViewType.FLAGGED) {
-                type.setValue(CellViewType.CLOSED);
-            } else {
-                type.setValue(CellViewType.FLAGGED);
-            }
-        }
+    public void openAll() {
+        model.getBoardModel().openAll();
     }
 
-    public enum CellViewType {
-        BLANK,
-        NUMBER,
-        CLOSED,
-        FLAGGED,
-        BOMB,
+    public void flag() {
+        model.flag();
     }
 }
