@@ -39,7 +39,7 @@
   <children>
       <AnchorPane fx:id="anchorPaneMenu" prefHeight="48.0" prefWidth="640.0">
          <children>
-            <Button fx:id="buttonRestart" layoutX="587.0" layoutY="2.0" mnemonicParsing="false" onAction="#timerReset" text="Restart" />
+            <Button fx:id="buttonRestart" layoutX="587.0" layoutY="2.0" mnemonicParsing="false" onAction="#restartButton" text="Restart" />
             <MenuButton fx:id="dropDownButton" layoutY="2.0" mnemonicParsing="false" text="Options">
               <items>
                 <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveState" text="Save" />

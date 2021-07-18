@@ -24,13 +24,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.TimerTask;
 
 public class MainGameView implements Initializable {
+    // FXML verknüpfungen
     @FXML
     GridPane grid;
 
@@ -68,8 +66,10 @@ public class MainGameView implements Initializable {
     Label LabelCounter;
 
     IntegerProperty checkFlagChange= new SimpleIntegerProperty(10);
+    //flaggenzahl
 
     final ChangeListener changeListenerFlags= new ChangeListener() {
+        //reagiert auf änderungen an der flaggenzahl
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 LabelBombs.setText("Flaggen:"+checkFlagChange.getValue());
@@ -79,6 +79,7 @@ public class MainGameView implements Initializable {
 
     public void restartButton(javafx.event.ActionEvent actionEvent) throws IOException {
         initialize();
+        timerReset();
     }
 
     public void gotoMenu(javafx.event.ActionEvent actionEvent){
@@ -108,6 +109,7 @@ public class MainGameView implements Initializable {
     }
 
     public void exit(javafx.event.ActionEvent actionEvent){
+        //beendet fenster+ programm endet nach kurzer zeit selber
         Stage stage = (Stage) buttonRestart.getScene().getWindow();
         stage.setOnCloseRequest(event -> stage.hide());
         // do what you have to do
@@ -140,7 +142,7 @@ public class MainGameView implements Initializable {
         });
 
     }
-
+    //teile Timeline
     int seconds=0;
     int minutes=0;
     String secondsString= String.format("%02d",seconds);
@@ -149,7 +151,7 @@ public class MainGameView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //beginnt timeline direkt zu Beginn
         LabelCounter.setText("Zeit: "+minutesString+":"+secondsString);
         timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
             seconds++;
@@ -166,6 +168,7 @@ public class MainGameView implements Initializable {
 
     }
     public void timerReset(){
+        //pausiert timeline um werte zu resetten
         timeline.stop();
         seconds=0;
         minutes=0;
@@ -175,10 +178,12 @@ public class MainGameView implements Initializable {
         timeline.play();
     }
     public void timerPause(javafx.event.ActionEvent actionEvent){
+        //nur pausieren noch keine anwendung
         timeline.stop();
     }
 
     public void timerResume(javafx.event.ActionEvent actionEvent){
+        //nur fortsetzen gegengtück zu timerpause
         timeline.play();
     }
 }
