@@ -25,11 +25,11 @@ public class CellView {
     @FXML
     Label number;
 
-    @FXML
-    Image imgBomb;
+   // @FXML
+   // Image imgBomb;
 
-    @FXML
-    Image imgFlag;
+   // @FXML
+    //Image imgFlag;
 
     public void setViewModel(CellViewModel viewModel) {
         this.viewModel = viewModel;

@@ -1,9 +1,12 @@
 package View;
 
+import ViewModel.BoardViewModel;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,13 +14,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
+
+import java.beans.EventHandler;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 public class MainGameView {
+    @FXML
+    GridPane grid;
 
     @FXML
     AnchorPane anchorPaneGrid;
@@ -92,7 +103,7 @@ public class MainGameView {
         },1000,6000);
     }
 
-    public void stopTimer(){
+    public void stopTimer(javafx.event.ActionEvent actionEvent){
         //pausiert Timer
         timer.cancel();
     }
@@ -104,7 +115,7 @@ public class MainGameView {
         minutes=0;
     }
 
-    public void restartButton(){
+    public void restartButton(javafx.event.ActionEvent actionEvent){
         // methode für restart Button
         endTimer();
 
@@ -113,7 +124,7 @@ public class MainGameView {
     public void gotoMenu(javafx.event.ActionEvent actionEvent){
         //soll zum Menü springen
         /*HideScene = ((Node) (actionEvent.getSource())).getScene().getWindow();
-        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();*/
+        */
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
@@ -137,14 +148,38 @@ public class MainGameView {
 
     }
 
-    public void exit(){
-        Stage stage= (Stage) anchorPaneGrid.getScene().getWindow();
-        stage.close();
+    public void exit(javafx.event.ActionEvent actionEvent){
+        Window window =   ((Node)(actionEvent.getSource())).getScene().getWindow();
+        if (window instanceof Stage){
+            ((Stage) window).close();
+        }
+
+
+
     }
+
 
     public void flagCountSet(){
         checkFlagChange.addListener(changeListenerFlags);
         checkFlagChange.subtract(1);
+    }
+    private BoardViewModel boardViewModel;
+
+    public void initialize() throws IOException {
+        boardViewModel = new BoardViewModel();
+        var fxml2 = getClass().getClassLoader().getResources("cell.fxml").nextElement();
+        boardViewModel.cellViewModels.forEach((integerIntegerPair, cellViewModel) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(fxml2);
+                Node cell = loader.load();
+                CellView controller = loader.getController();
+                controller.setViewModel(cellViewModel);
+                grid.add(cell, integerIntegerPair.getKey(), integerIntegerPair.getValue());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
     }
 

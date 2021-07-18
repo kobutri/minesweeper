@@ -1,4 +1,5 @@
 import View.BoardView;
+import View.MainGameView;
 import ViewModel.BoardViewModel;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,9 +16,9 @@ public class MinesweeperApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         var fxml = getClass().getResource("board.fxml");
         assert fxml != null;
-        FXMLLoader loader = new FXMLLoader(fxml);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent root = loader.load();
-        BoardView controller = loader.getController();
+        MainGameView controller = loader.getController();
         controller.initialize();
         primaryStage.setScene(new Scene(root, 640, 480));
         primaryStage.show();

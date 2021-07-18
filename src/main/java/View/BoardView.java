@@ -12,8 +12,8 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 
 public class BoardView {
-    @FXML
-    GridPane grid;
+
+    @FXML GridPane grid;
 
     private BoardViewModel boardViewModel;
 
