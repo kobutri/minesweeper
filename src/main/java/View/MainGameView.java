@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.beans.EventHandler;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.beans.value.ChangeListener;
@@ -69,6 +70,8 @@ public class MainGameView {
     IntegerProperty checkChange= new SimpleIntegerProperty(0);
     IntegerProperty checkFlagChange= new SimpleIntegerProperty(10);
 
+
+
     final ChangeListener changeListenerTimer= new ChangeListener() {
         @Override
         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -115,10 +118,8 @@ public class MainGameView {
         minutes=0;
     }
 
-    public void restartButton(javafx.event.ActionEvent actionEvent){
-        // methode für restart Button
-        endTimer();
-
+    public void restartButton(javafx.event.ActionEvent actionEvent) throws IOException {
+        initialize();
     }
 
     public void gotoMenu(javafx.event.ActionEvent actionEvent){
@@ -149,11 +150,11 @@ public class MainGameView {
     }
 
     public void exit(javafx.event.ActionEvent actionEvent){
-        Window window =   ((Node)(actionEvent.getSource())).getScene().getWindow();
-        if (window instanceof Stage){
-            ((Stage) window).close();
-        }
-
+        Stage stage = (Stage) buttonRestart.getScene().getWindow();
+        stage.setOnCloseRequest(event -> stage.hide());
+        // do what you have to do
+        stage.close();
+        buttonRestart.setOnAction(e -> Platform.exit());
 
 
     }

@@ -23,4 +23,5 @@ public class MinesweeperApp extends Application {
         primaryStage.setScene(new Scene(root, 640, 480));
         primaryStage.show();
     }
+
 }
