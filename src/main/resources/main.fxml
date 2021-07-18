@@ -39,8 +39,8 @@
   <children>
       <AnchorPane fx:id="anchorPaneMenu" prefHeight="48.0" prefWidth="640.0">
          <children>
-            <Button fx:id="buttonRestart" layoutX="587.0" layoutY="2.0" mnemonicParsing="false" onAction="#restartButton" text="Restart" />
-            <MenuButton fx:id="dropDownButton" layoutY="2.0" mnemonicParsing="false" onContextMenuRequested="#stopTimer" onMouseClicked="#startTimer" text="Options">
+            <Button fx:id="buttonRestart" layoutX="587.0" layoutY="2.0" mnemonicParsing="false" onAction="#timerReset" text="Restart" />
+            <MenuButton fx:id="dropDownButton" layoutY="2.0" mnemonicParsing="false" text="Options">
               <items>
                 <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveState" text="Save" />
                 <MenuItem fx:id="loadButton" mnemonicParsing="false" onAction="#loadState" text="Load" />
@@ -53,10 +53,10 @@
       <AnchorPane fx:id="anchorPaneDisplay" prefHeight="45.0" prefWidth="640.0">
          <children>
             <Label fx:id="LabelBombs" layoutX="159.0" layoutY="10.0" prefHeight="25.0" prefWidth="68.0" text="Flaggen:  10" />
-            <Label fx:id="LabelCounter" layoutX="424.0" layoutY="9.0" prefHeight="27.0" prefWidth="90.0" text="Counter: 00:00 " />
+            <Label fx:id="LabelCounter" layoutX="424.0" layoutY="9.0" prefHeight="27.0" prefWidth="106.0" text="Counter: 00:00:00 " />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anchorPaneGrid" prefHeight="316.0" prefWidth="640.0" >
+      <AnchorPane fx:id="anchorPaneGrid" prefHeight="316.0" prefWidth="640.0">
        <GridPane fx:id="grid" hgap="10" vgap="10" />
       </AnchorPane>
 

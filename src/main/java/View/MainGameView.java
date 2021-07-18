@@ -1,11 +1,15 @@
 package View;
 
 import ViewModel.BoardViewModel;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,20 +18,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
-
-import java.beans.EventHandler;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Timer;
-import java.util.TimerTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
-public class MainGameView {
+import javax.swing.*;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.TimerTask;
+
+public class MainGameView implements Initializable {
     @FXML
     GridPane grid;
 
@@ -64,22 +67,9 @@ public class MainGameView {
     @FXML
     Label LabelCounter;
 
-    private final Timer timer= new Timer();
-    private long seconds=0;
-    private long minutes=0;
-    IntegerProperty checkChange= new SimpleIntegerProperty(0);
     IntegerProperty checkFlagChange= new SimpleIntegerProperty(10);
 
-
-
-    final ChangeListener changeListenerTimer= new ChangeListener() {
-        @Override
-        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-            LabelCounter.setText("Counter:"+minutes+seconds);
-        }
-    };
-
-        final ChangeListener changeListenerFlags= new ChangeListener() {
+    final ChangeListener changeListenerFlags= new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 LabelBombs.setText("Flaggen:"+checkFlagChange.getValue());
@@ -87,45 +77,13 @@ public class MainGameView {
         };
 
 
-    public void startTimer(){
-        //Startet Timer bzw Fortsetzen
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                checkChange.addListener(changeListenerTimer);
-                seconds++;
-                checkChange.setValue(seconds);
-                if(seconds==60){
-                    seconds=0;
-                    minutes++;
-                }
-                if(minutes==99&&seconds==60){
-                    endTimer();
-                }
-            }
-        },1000,6000);
-    }
-
-    public void stopTimer(javafx.event.ActionEvent actionEvent){
-        //pausiert Timer
-        timer.cancel();
-    }
-
-    public void endTimer(){
-        //beendet Timer+Zustand
-        timer.cancel();
-        seconds=0;
-        minutes=0;
-    }
-
     public void restartButton(javafx.event.ActionEvent actionEvent) throws IOException {
         initialize();
     }
 
     public void gotoMenu(javafx.event.ActionEvent actionEvent){
         //soll zum Menü springen
-        /*HideScene = ((Node) (actionEvent.getSource())).getScene().getWindow();
-        */
+
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
@@ -182,7 +140,48 @@ public class MainGameView {
         });
 
     }
+
+    int seconds=0;
+    int minutes=0;
+    String secondsString= String.format("%02d",seconds);
+    String minutesString= String.format("%02d",minutes);
+    Timeline timeline;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        LabelCounter.setText("Zeit: "+minutesString+":"+secondsString);
+        timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
+            seconds++;
+            if(seconds==60){
+                minutes++;
+                seconds=0;
+            }
+            secondsString= String.format("%02d",seconds);
+            minutesString= String.format("%02d",minutes);
+            LabelCounter.setText("Zeit: "+minutesString+":"+secondsString);
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
     }
+    public void timerReset(){
+        timeline.stop();
+        seconds=0;
+        minutes=0;
+        String secondsString= String.format("%02d",seconds);
+        String minutesString= String.format("%02d",minutes);
+        LabelCounter.setText("Zeit: "+minutesString+":"+secondsString);
+        timeline.play();
+    }
+    public void timerPause(javafx.event.ActionEvent actionEvent){
+        timeline.stop();
+    }
+
+    public void timerResume(javafx.event.ActionEvent actionEvent){
+        timeline.play();
+    }
+}
 
 
 
