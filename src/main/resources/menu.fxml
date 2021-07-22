@@ -7,7 +7,7 @@
    <children>
       <Slider fx:id="SliderX" layoutX="55.0" layoutY="35.0" majorTickUnit="1.0" max="11.0" min="5.0" minorTickCount="0" prefHeight="38.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="8.0" />
       <Slider fx:id="SliderY" layoutX="55.0" layoutY="93.0" majorTickUnit="1.0" max="11.0" min="5.0" minorTickCount="0" prefHeight="38.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="8.0" />
-      <Slider fx:id="SliderBombs" layoutX="55.0" layoutY="145.0" majorTickUnit="1.0" max="20.0" min="1.0" minorTickCount="0" prefHeight="38.0" prefWidth="283.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0" />
+      <Slider fx:id="SliderBombs" layoutX="55.0" layoutY="145.0" majorTickUnit="1.0" max="15.0" min="1.0" minorTickCount="0" prefHeight="38.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0" />
       <Button fx:id="ButtonStart" layoutX="170.0" layoutY="234.0" mnemonicParsing="false" onAction="#StartMainGame" text="Start" />
       <Label layoutX="14.0" layoutY="37.0" text="Length:" />
       <Label layoutX="14.0" layoutY="95.0" text="Width:" />
