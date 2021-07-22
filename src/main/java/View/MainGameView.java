@@ -72,7 +72,7 @@ public class MainGameView implements Initializable {
         //reagiert auf änderungen an der flaggenzahl
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                LabelBombs.setText("Flaggen:"+checkFlagChange.getValue());
+                LabelBombs.setText("Flags:"+checkFlagChange.getValue());
             }
         };
 
@@ -152,7 +152,7 @@ public class MainGameView implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //beginnt timeline direkt zu Beginn
-        LabelCounter.setText("Zeit: "+minutesString+":"+secondsString);
+        LabelCounter.setText("Time: "+minutesString+":"+secondsString);
         timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
             seconds++;
             if(seconds==60){
@@ -161,7 +161,7 @@ public class MainGameView implements Initializable {
             }
             secondsString= String.format("%02d",seconds);
             minutesString= String.format("%02d",minutes);
-            LabelCounter.setText("Zeit: "+minutesString+":"+secondsString);
+            LabelCounter.setText("Time: "+minutesString+":"+secondsString);
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -174,7 +174,7 @@ public class MainGameView implements Initializable {
         minutes=0;
         String secondsString= String.format("%02d",seconds);
         String minutesString= String.format("%02d",minutes);
-        LabelCounter.setText("Zeit: "+minutesString+":"+secondsString);
+        LabelCounter.setText("Time: "+minutesString+":"+secondsString);
         timeline.play();
     }
     public void timerPause(javafx.event.ActionEvent actionEvent){
