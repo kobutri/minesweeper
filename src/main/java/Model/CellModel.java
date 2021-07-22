@@ -1,24 +1,60 @@
 package Model;
 
+import backend.CellState;
 import backend.CellType;
-import backend.WinState;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class CellModel {
     private final int x;
     private final int y;
     private final BoardModel boardModel;
-    private BooleanProperty open;
-    private CellType type;
-    private int numNeighboringBombs = 0;
+    private final SimpleObjectProperty<CellState> cellState;
+
+    public void setType(CellType type) {
+        this.type.set(type);
+        if (type == CellType.BOMB && getOpen()) {
+            cellState.set(CellState.BOMB);
+        }
+    }
+
+    public CellType getType() {
+        return type.get();
+    }
+
+    public SimpleObjectProperty<CellType> typeProperty() {
+        return type;
+    }
+
+    private SimpleObjectProperty<CellType> type = new SimpleObjectProperty<>();
+
+    public void setNumNeighboringBombs(int numNeighboringBombs) {
+        this.numNeighboringBombs.set(numNeighboringBombs);
+        if (getOpen() && type.get() != CellType.BOMB) {
+            if (numNeighboringBombs == 0) {
+                cellState.set(CellState.BLANK);
+            } else {
+                cellState.set(CellState.NUMBER);
+            }
+        }
+    }
+
+    public int getNumNeighboringBombs() {
+        return numNeighboringBombs.get();
+    }
+
+    public SimpleIntegerProperty numNeighboringBombsProperty() {
+        return numNeighboringBombs;
+    }
+
+    private SimpleIntegerProperty numNeighboringBombs = new SimpleIntegerProperty();
+
     public CellModel(int x, int y, boolean open, CellType type, BoardModel boardModel) {
         this.x = x;
         this.y = y;
-        this.open = new SimpleBooleanProperty(open);
-        this.type = type;
+        this.cellState = new SimpleObjectProperty<>(CellState.CLOSED);
+        this.type.set(type);
         this.boardModel = boardModel;
-        numNeighboringBombs = boardModel.getBoard().neighboringBombs(x, y);
     }
 
     public int getX() {
@@ -33,32 +69,51 @@ public class CellModel {
         return boardModel;
     }
 
-    public BooleanProperty getOpen() {
-        return open;
-    }
-
-
-    public CellType getType() {
-        return type;
-    }
-
-    public int getNumNeighboringBombs() {
-        return numNeighboringBombs;
-    }
 
     public void open() {
-        open.set(true);
-        if (numNeighboringBombs == 0) {
+        if(!boardModel.isBoardGenerated()) {
+            boardModel.generateBoard(x, y);
+        }
+        if (type.get() == CellType.BOMB) {
+            cellState.set(CellState.BOMB);
+        } else if (numNeighboringBombs.get() == 0) {
+            cellState.set(CellState.BLANK);
+        } else {
+            cellState.set(CellState.NUMBER);
+        }
+
+        if (numNeighboringBombs.get() == 0) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     try {
                         var index = boardModel.getBoardInitializer().indexFromIndex2D(x + i, y + j);
-                        if (!boardModel.getCells().get(index).getOpen().get() && boardModel.getCells().get(index).getType() != CellType.BOMB ) {
+                        if (!boardModel.getCells().get(index).getOpen() && boardModel.getCells().get(index).getType() != CellType.BOMB) {
                             boardModel.getCells().get(index).open();
                         }
-                    } catch (IndexOutOfBoundsException ignored) { }
+                    } catch (IndexOutOfBoundsException ignored) {
+                    }
                 }
             }
         }
+    }
+
+    public void flag() {
+        if (cellState.get() == CellState.FLAGGED) {
+            cellState.set(CellState.CLOSED);
+        } else if (cellState.get() == CellState.CLOSED) {
+            cellState.set(CellState.FLAGGED);
+        }
+    }
+
+    public CellState getCellState() {
+        return cellState.get();
+    }
+
+    public SimpleObjectProperty<CellState> cellStateProperty() {
+        return cellState;
+    }
+
+    public boolean getOpen() {
+        return !(cellState.get() == CellState.FLAGGED || cellState.get() == CellState.CLOSED);
     }
 }

@@ -1,10 +1,12 @@
 package View;
 
 import ViewModel.CellViewModel;
+import backend.WinState;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
@@ -24,18 +26,12 @@ public class CellView {
     @FXML
     Label number;
 
-    @FXML
-    Image imgBomb;
-
-    @FXML
-    Image imgFlag;
-
     public void setViewModel(CellViewModel viewModel) {
         this.viewModel = viewModel;
-        viewModel.typeProperty().addListener((observable, oldValue, newValue) -> {
-            setView(newValue);
-        });
-        setView(viewModel.getType());
+        this.bomb.visibleProperty().bind(viewModel.isBombProperty());
+        this.flag.visibleProperty().bind(viewModel.isFlaggedProperty());
+        this.closed.visibleProperty().bind(viewModel.isOpenProperty().not());
+        this.number.visibleProperty().bind(viewModel.showNumberProperty());
         number.textProperty().bind(viewModel.numberProperty());
     }
 
@@ -43,20 +39,18 @@ public class CellView {
 
     public void click(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
-            viewModel.open();
+            var state = viewModel.open();
+            if (state == WinState.WIN) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You Won");
+                alert.showAndWait();
+            } else if (state == WinState.LOOSE) {
+                viewModel.openAll();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You Lost");
+                alert.showAndWait();
+            }
         } else if (event.getButton() == MouseButton.SECONDARY) {
             viewModel.flag();
         }
-    }
-
-    private void setView(CellViewModel.CellViewType type) {
-        closed.setVisible(type == CellViewModel.CellViewType.FLAGGED || type == CellViewModel.CellViewType.CLOSED);
-
-        flag.setVisible(type == CellViewModel.CellViewType.FLAGGED);
-
-        bomb.setVisible(type == CellViewModel.CellViewType.BOMB);
-
-        number.setVisible(type == CellViewModel.CellViewType.NUMBER);
     }
 
 

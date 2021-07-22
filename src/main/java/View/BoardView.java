@@ -1,9 +1,6 @@
 package View;
 
 import ViewModel.BoardViewModel;
-import ViewModel.CellViewModel;
-import backend.Board;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -30,6 +27,5 @@ public class BoardView {
                 e.printStackTrace();
             }
         });
-
     }
 }
