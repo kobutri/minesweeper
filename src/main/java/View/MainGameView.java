@@ -151,19 +151,7 @@ public class MainGameView /* implements Initializable */{
         boardController.initialize(gameViewModel.getGameModel().getBoardModel());
         this.stage = stage;
 
-        LabelCounter.setText("Time: "+minutesString+":"+secondsString);
-        timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
-            seconds++;
-            if(seconds==60){
-                minutes++;
-                seconds=0;
-            }
-            secondsString= String.format("%02d",seconds);
-            minutesString= String.format("%02d",minutes);
-            LabelCounter.setText("Time: "+minutesString+":"+secondsString);
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        LabelCounter.textProperty().bind(gameViewModel.timerProperty());
 
 
 //        boardViewModel = new BoardViewModel();

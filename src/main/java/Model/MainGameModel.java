@@ -1,11 +1,24 @@
 package Model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.StringProperty;
+import javafx.animation.Animation;
+import javafx.animation.Timeline;
 
 public class MainGameModel {
-    private MenuModel menuModel = new MenuModel(this);
+    private final MenuModel menuModel = new MenuModel(this);
+    private final BoardModel boardModel = new BoardModel();
+    int flagCount = 0;
+    private final Timeline timeline;
+
+
+    public MainGameModel() {
+        timeline = new Timeline(60);
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    public Timeline getTimeline() {
+        return timeline;
+    }
 
     public MenuModel getMenuModel() {
         return menuModel;
@@ -15,23 +28,17 @@ public class MainGameModel {
         return boardModel;
     }
 
-    public double getTimer() {
-        return timer;
-    }
-
     public int getFlagCount() {
         return flagCount;
     }
 
-    private BoardModel boardModel = new BoardModel();
-    double timer = 0;
-    int flagCount = 0;
-
     void start() {
         // start the game
         flagCount = 0;
-        timer = 0;
         boardModel.initializeBoard(menuModel.boardInitializer);
+    }
+
+    void reset() {
     }
 
 }
