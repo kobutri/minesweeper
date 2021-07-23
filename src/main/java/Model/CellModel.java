@@ -8,8 +8,21 @@ import javafx.beans.property.SimpleObjectProperty;
 public class CellModel {
     private final int x;
     private final int y;
-    private final BoardModel boardModel;
     private final SimpleObjectProperty<CellState> cellState;
+    private final SimpleObjectProperty<CellType> type = new SimpleObjectProperty<>();
+    private final SimpleIntegerProperty numNeighboringBombs = new SimpleIntegerProperty();
+    private transient BoardModel boardModel;
+    public CellModel(int x, int y, boolean open, CellType type, BoardModel boardModel) {
+        this.x = x;
+        this.y = y;
+        this.cellState = new SimpleObjectProperty<>(CellState.CLOSED);
+        this.type.set(type);
+        this.boardModel = boardModel;
+    }
+
+    public CellType getType() {
+        return type.get();
+    }
 
     public void setType(CellType type) {
         this.type.set(type);
@@ -18,15 +31,13 @@ public class CellModel {
         }
     }
 
-    public CellType getType() {
-        return type.get();
-    }
-
     public SimpleObjectProperty<CellType> typeProperty() {
         return type;
     }
 
-    private SimpleObjectProperty<CellType> type = new SimpleObjectProperty<>();
+    public int getNumNeighboringBombs() {
+        return numNeighboringBombs.get();
+    }
 
     public void setNumNeighboringBombs(int numNeighboringBombs) {
         this.numNeighboringBombs.set(numNeighboringBombs);
@@ -39,22 +50,8 @@ public class CellModel {
         }
     }
 
-    public int getNumNeighboringBombs() {
-        return numNeighboringBombs.get();
-    }
-
     public SimpleIntegerProperty numNeighboringBombsProperty() {
         return numNeighboringBombs;
-    }
-
-    private SimpleIntegerProperty numNeighboringBombs = new SimpleIntegerProperty();
-
-    public CellModel(int x, int y, boolean open, CellType type, BoardModel boardModel) {
-        this.x = x;
-        this.y = y;
-        this.cellState = new SimpleObjectProperty<>(CellState.CLOSED);
-        this.type.set(type);
-        this.boardModel = boardModel;
     }
 
     public int getX() {
@@ -69,9 +66,12 @@ public class CellModel {
         return boardModel;
     }
 
+    public void setBoardModel(BoardModel boardModel) {
+        this.boardModel = boardModel;
+    }
 
     public void open() {
-        if(!boardModel.isBoardGenerated()) {
+        if (!boardModel.isBoardGenerated()) {
             boardModel.generateBoard(x, y);
         }
         if (type.get() == CellType.BOMB) {

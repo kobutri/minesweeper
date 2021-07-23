@@ -3,6 +3,7 @@ package Model;
 import backend.BoardInitializer;
 import backend.CellType;
 import backend.WinState;
+import com.google.gson.Gson;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -72,6 +73,8 @@ public class BoardModel {
             cell.setNumNeighboringBombs(neighboringBombs(cell.getX(), cell.getY()));
         }
         boardGenerated = true;
+
+        //System.out.println((new Gson()).toJson(cells.get(0)));
     }
 
     public void initializeBoard(BoardInitializer boardInitializer) {

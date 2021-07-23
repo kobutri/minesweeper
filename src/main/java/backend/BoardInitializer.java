@@ -17,7 +17,7 @@ public final class BoardInitializer {
         return numBombs;
     }
 
-    public BoardInitializer(int width, int height, int numBombs, int xNotABomb, int yNotABomb) {
+    public BoardInitializer(int width, int height, int numBombs) {
         this.width = width;
         this.height = height;
         this.numBombs = numBombs;

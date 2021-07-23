@@ -1,5 +1,6 @@
 package View;
 
+import Model.BoardModel;
 import ViewModel.BoardViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +17,19 @@ public class BoardView {
 
     public void initialize() throws IOException {
         boardViewModel = new BoardViewModel();
-        var fxml2 = getClass().getClassLoader().getResources("cell.fxml").nextElement();
+        initializeInternal();
+    }
+
+    public void initialize(BoardModel boardModel) throws IOException {
+        boardViewModel = new BoardViewModel(boardModel);
+        initializeInternal();
+    }
+
+    private void initializeInternal() throws IOException {
+        var fxml = getClass().getClassLoader().getResources("cell.fxml").nextElement();
         boardViewModel.cellViewModels.forEach((integerIntegerPair, cellViewModel) -> {
             try {
-                FXMLLoader loader = new FXMLLoader(fxml2);
+                FXMLLoader loader = new FXMLLoader(fxml);
                 Node cell = loader.load();
                 CellView controller = loader.getController();
                 controller.setViewModel(cellViewModel);
