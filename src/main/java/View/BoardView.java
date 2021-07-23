@@ -15,7 +15,7 @@ public class BoardView {
     private BoardViewModel boardViewModel;
 
     public void initialize(BoardModel boardModel) throws IOException {
-        boardViewModel = new BoardViewModel();
+        boardViewModel = new BoardViewModel(boardModel);
         var fxml2 = getClass().getClassLoader().getResources("cell.fxml").nextElement();
         boardViewModel.cellViewModels.forEach((integerIntegerPair, cellViewModel) -> {
             try {

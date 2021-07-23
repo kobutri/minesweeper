@@ -11,7 +11,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,16 +22,15 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class MainGameView /* implements Initializable */{
     // FXML verknüpfungen
     @FXML
-    BoardView board;
+    Node board;
+    @FXML
+    BoardView boardController;
 
     @FXML
     AnchorPane anchorPaneGrid;
@@ -149,7 +147,8 @@ public class MainGameView /* implements Initializable */{
     private BoardViewModel boardViewModel;
 
     public void initialize(Stage stage) throws IOException {
-        board.initialize(gameViewModel.getGameModel().getBoardModel());
+        gameViewModel = new MainGameViewModel();
+        boardController.initialize(gameViewModel.getGameModel().getBoardModel());
         this.stage = stage;
 
         LabelCounter.setText("Time: "+minutesString+":"+secondsString);
