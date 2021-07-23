@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -65,6 +66,10 @@ public class MainGameView implements Initializable {
     @FXML
     Label LabelCounter;
 
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
     IntegerProperty checkFlagChange= new SimpleIntegerProperty(10);
     //flaggenzahl
 
@@ -76,26 +81,40 @@ public class MainGameView implements Initializable {
             }
         };
 
+    public void switchToScene1(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getClassLoader().getResources("menu.fxml").nextElement());
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToScene2(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     public void restartButton(javafx.event.ActionEvent actionEvent) throws IOException {
         initialize();
         timerReset();
+
     }
 
-    public void gotoMenu(javafx.event.ActionEvent actionEvent){
-        //soll zum Menü springen
+    public void gotoMenu(javafx.event.ActionEvent actionEvent) throws IOException {
+        //soll zum Menü springe
 
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root1));
-                stage.show();
-                Stage stageMenu= (Stage) anchorPaneGrid.getScene().getWindow();
-                stageMenu.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
+
+
+
         }
 
     public void saveState (){
@@ -112,11 +131,9 @@ public class MainGameView implements Initializable {
         //beendet fenster+ programm endet nach kurzer zeit selber
         Stage stage = (Stage) buttonRestart.getScene().getWindow();
         stage.setOnCloseRequest(event -> stage.hide());
-        // do what you have to do
         stage.close();
         buttonRestart.setOnAction(e -> Platform.exit());
-
-
+        
     }
 
 

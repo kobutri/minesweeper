@@ -15,6 +15,7 @@ public class InteractiveViewer extends Pane {
             Rectangle rectangle = new Rectangle(newValue.getWidth(), newValue.getHeight());
             setClip(rectangle);
         });
+
         setOnZoom(event -> {
             int size = pane.getTransforms().size();
             Transform oldTransform = pane.getTransforms().get(size-1);
@@ -51,6 +52,6 @@ public class InteractiveViewer extends Pane {
     }
     private final Pane pane = new Pane();
     private Point2D mousePosition = null;
-
+ 
 
 }
