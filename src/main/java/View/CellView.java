@@ -6,8 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+
 
 public class CellView {
     @FXML
@@ -40,11 +43,19 @@ public class CellView {
         if (event.getButton() == MouseButton.PRIMARY) {
             var state = viewModel.open();
             if (state == WinState.WIN) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You Won");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You Won");
+                alert.setTitle("Victory");
+                alert.setHeaderText("Good Job!");
+                Image image= new Image("https://icons.iconarchive.com/icons/iconshock/super-vista-business/72/trophy-icon.png");
+                alert.setGraphic(new ImageView(image));
                 alert.showAndWait();
             } else if (state == WinState.LOOSE) {
                 viewModel.openAll();
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You Lost");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You Lost");
+                alert.setTitle("Defeat");
+                alert.setHeaderText("Unlucky You!");
+                Image image= new Image("https://icons.iconarchive.com/icons/rokey/popo-emotions/72/after-boom-icon.png");
+                alert.setGraphic(new ImageView(image));
                 alert.showAndWait();
             }
         } else if (event.getButton() == MouseButton.SECONDARY) {
