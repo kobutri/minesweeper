@@ -17,7 +17,7 @@ public class MinesweeperApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent root = loader.load();
         MainGameView controller = loader.getController();
-        controller.initialize();
+        controller.initialize(primaryStage);
         primaryStage.setScene(new Scene(root, 900, 1000));
         primaryStage.show();
     }

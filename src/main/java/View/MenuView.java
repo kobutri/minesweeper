@@ -1,5 +1,7 @@
 package View;
 
+import Model.MenuModel;
+import ViewModel.MenuViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -38,12 +40,10 @@ public class MenuView {
     @FXML
     Button ButtonStart;
 
+    private MenuViewModel menuViewModel;
+    private Stage stage;
 
 
-
-
-    public MenuView(){
-    }
     private void Generate()
     {
         // Werteübergabe aus Slidern um Spiel zu erstellen
@@ -52,21 +52,26 @@ public class MenuView {
         LabelBombs.setTextContent("" + SliderBombs.getValue());
     }
 
+    public void initialize(MenuModel menuModel, Stage stage) {
+        menuViewModel = new MenuViewModel(menuModel);
+        SliderX.minProperty().bind(menuViewModel.minWidthProperty());
+        SliderX.maxProperty().bind(menuViewModel.maxWidthProperty());
+        SliderX.valueProperty().bind(menuViewModel.widthProperty());
+
+        SliderY.minProperty().bind(menuViewModel.minHeightProperty());
+        SliderY.maxProperty().bind(menuViewModel.minHeightProperty());
+        SliderY.valueProperty().bind(menuViewModel.heightProperty());
+
+        SliderBombs.minProperty().bind(menuViewModel.minNumBombsProperty());
+        SliderBombs.maxProperty().bind(menuViewModel.maxNumBombsProperty());
+        SliderBombs.valueProperty().bind(menuViewModel.numBombsProperty());
+
+        this.stage = stage;
+    }
+
     public void StartMainGame(javafx.event.ActionEvent actionEvent) {
-        // Starten des eigentlichen Spiels aus der Menu Stage heraus
-        /*HideScene = ((Node) (actionEvent.getSource())).getScene().getWindow();
-        ((Node) (actionEvent.getSource())).getScene().getWindow().hide();*/
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-            Stage stageMenu= (Stage) SliderY.getScene().getWindow();
-            stageMenu.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+       menuViewModel.start();
+       stage.close();
     }
 
 

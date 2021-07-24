@@ -1,6 +1,7 @@
 package View;
 
 import ViewModel.BoardViewModel;
+import ViewModel.MainGameViewModel;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -10,7 +11,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,16 +22,15 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class MainGameView implements Initializable {
+public class MainGameView /* implements Initializable */{
     // FXML verknüpfungen
     @FXML
-    GridPane grid;
+    Node board;
+    @FXML
+    BoardView boardController;
 
     @FXML
     AnchorPane anchorPaneGrid;
@@ -70,6 +69,8 @@ public class MainGameView implements Initializable {
     private Scene scene;
     private Parent root;
 
+    private MainGameViewModel gameViewModel;
+
     IntegerProperty checkFlagChange= new SimpleIntegerProperty(10);
     //flaggenzahl
 
@@ -82,8 +83,11 @@ public class MainGameView implements Initializable {
         };
 
     public void switchToScene1(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getClassLoader().getResources("menu.fxml").nextElement());
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResources("menu.fxml").nextElement());
+        root = loader.load();
+        MenuView menuView = loader.getController();
+        Stage menuStage = new Stage();
+        menuView.initialize(gameViewModel.getGameModel().getMenuModel(), menuStage);
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -91,7 +95,6 @@ public class MainGameView implements Initializable {
 
     public void switchToScene2(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("menu.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -99,7 +102,7 @@ public class MainGameView implements Initializable {
 
 
     public void restartButton(javafx.event.ActionEvent actionEvent) throws IOException {
-        initialize();
+        initialize(this.stage);
         timerReset();
 
     }
@@ -143,20 +146,27 @@ public class MainGameView implements Initializable {
     }
     private BoardViewModel boardViewModel;
 
-    public void initialize() throws IOException {
-        boardViewModel = new BoardViewModel();
-        var fxml2 = getClass().getClassLoader().getResources("cell.fxml").nextElement();
-        boardViewModel.cellViewModels.forEach((integerIntegerPair, cellViewModel) -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(fxml2);
-                Node cell = loader.load();
-                CellView controller = loader.getController();
-                controller.setViewModel(cellViewModel);
-                grid.add(cell, integerIntegerPair.getKey(), integerIntegerPair.getValue());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+    public void initialize(Stage stage) throws IOException {
+        gameViewModel = new MainGameViewModel();
+        boardController.initialize(gameViewModel.getGameModel().getBoardModel());
+        this.stage = stage;
+
+        LabelCounter.textProperty().bind(gameViewModel.timerProperty());
+
+
+//        boardViewModel = new BoardViewModel();
+//        var fxml2 = getClass().getClassLoader().getResources("cell.fxml").nextElement();
+//        boardViewModel.cellViewModels.forEach((integerIntegerPair, cellViewModel) -> {
+//            try {
+//                FXMLLoader loader = new FXMLLoader(fxml2);
+//                Node cell = loader.load();
+//                CellView controller = loader.getController();
+//                controller.setViewModel(cellViewModel);
+//                grid.add(cell, integerIntegerPair.getKey(), integerIntegerPair.getValue());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
 
     }
     //teile Timeline
@@ -166,24 +176,24 @@ public class MainGameView implements Initializable {
     String minutesString= String.format("%02d",minutes);
     Timeline timeline;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //beginnt timeline direkt zu Beginn
-        LabelCounter.setText("Time: "+minutesString+":"+secondsString);
-        timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
-            seconds++;
-            if(seconds==60){
-                minutes++;
-                seconds=0;
-            }
-            secondsString= String.format("%02d",seconds);
-            minutesString= String.format("%02d",minutes);
-            LabelCounter.setText("Time: "+minutesString+":"+secondsString);
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-
-    }
+//    @Override
+//    public void initialize(URL location, ResourceBundle resources) {
+//        //beginnt timeline direkt zu Beginn
+//        LabelCounter.setText("Time: "+minutesString+":"+secondsString);
+//        timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
+//            seconds++;
+//            if(seconds==60){
+//                minutes++;
+//                seconds=0;
+//            }
+//            secondsString= String.format("%02d",seconds);
+//            minutesString= String.format("%02d",minutes);
+//            LabelCounter.setText("Time: "+minutesString+":"+secondsString);
+//        }));
+//        timeline.setCycleCount(Animation.INDEFINITE);
+//        timeline.play();
+//
+//    }
     public void timerReset(){
         //pausiert timeline um werte zu resetten
         timeline.stop();
