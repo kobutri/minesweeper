@@ -1,5 +1,6 @@
 package View;
 
+import Model.MainGameModel;
 import ViewModel.BoardViewModel;
 import ViewModel.MainGameViewModel;
 import javafx.animation.Animation;
@@ -7,10 +8,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,12 +23,12 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class MainGameView /* implements Initializable */{
+public class MainGameView implements Initializable {
     // FXML verknüpfungen
     @FXML
     Node board;
@@ -68,19 +71,10 @@ public class MainGameView /* implements Initializable */{
     private Stage stage;
     private Scene scene;
     private Parent root;
+    MainGameModel mainGameModel= new MainGameModel();
+    IntegerProperty flagCount= mainGameModel.getFlagProb();
 
     private MainGameViewModel gameViewModel;
-
-    IntegerProperty checkFlagChange= new SimpleIntegerProperty(10);
-    //flaggenzahl
-
-    final ChangeListener changeListenerFlags= new ChangeListener() {
-        //reagiert auf änderungen an der flaggenzahl
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                LabelBombs.setText("Flags:"+checkFlagChange.getValue());
-            }
-        };
 
     public void switchToScene1(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResources("menu.fxml").nextElement());
@@ -101,9 +95,10 @@ public class MainGameView /* implements Initializable */{
     }
 
 
-    public void restartButton(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void restartButton() throws IOException {
         initialize(this.stage);
         timerReset();
+        mainGameModel.setFlagCount(mainGameModel.getFlagAmount());
 
     }
 
@@ -138,12 +133,12 @@ public class MainGameView /* implements Initializable */{
         buttonRestart.setOnAction(e -> Platform.exit());
         
     }
-
-
-    public void flagCountSet(){
-        checkFlagChange.addListener(changeListenerFlags);
-        checkFlagChange.subtract(1);
-    }
+    ChangeListener changeListener = new ChangeListener() {
+        @Override
+        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            LabelBombs.setText("Flags: "+ mainGameModel.getFlagCount());
+        }
+    };
     private BoardViewModel boardViewModel;
 
     public void initialize(Stage stage) throws IOException {
@@ -151,7 +146,9 @@ public class MainGameView /* implements Initializable */{
         boardController.initialize(gameViewModel.getGameModel().getBoardModel());
         this.stage = stage;
 
-        LabelCounter.textProperty().bind(gameViewModel.timerProperty());
+        //LabelCounter.textProperty().bind(gameViewModel.timerProperty());
+        flagCount.addListener(changeListener);
+    }
 
 
 //        boardViewModel = new BoardViewModel();
@@ -168,7 +165,7 @@ public class MainGameView /* implements Initializable */{
 //            }
 //        });
 
-    }
+
     //teile Timeline
     int seconds=0;
     int minutes=0;
@@ -176,24 +173,24 @@ public class MainGameView /* implements Initializable */{
     String minutesString= String.format("%02d",minutes);
     Timeline timeline;
 
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources) {
-//        //beginnt timeline direkt zu Beginn
-//        LabelCounter.setText("Time: "+minutesString+":"+secondsString);
-//        timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
-//            seconds++;
-//            if(seconds==60){
-//                minutes++;
-//                seconds=0;
-//            }
-//            secondsString= String.format("%02d",seconds);
-//            minutesString= String.format("%02d",minutes);
-//            LabelCounter.setText("Time: "+minutesString+":"+secondsString);
-//        }));
-//        timeline.setCycleCount(Animation.INDEFINITE);
-//        timeline.play();
-//
-//    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //beginnt timeline direkt zu Beginn
+        LabelCounter.setText("Time: "+minutesString+":"+secondsString);
+        timeline= new Timeline(new KeyFrame(Duration.seconds(1),e->{
+            seconds++;
+            if(seconds==60){
+                minutes++;
+                seconds=0;
+            }
+            secondsString= String.format("%02d",seconds);
+            minutesString= String.format("%02d",minutes);
+            LabelCounter.setText("Time: "+minutesString+":"+secondsString);
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
+    }
     public void timerReset(){
         //pausiert timeline um werte zu resetten
         timeline.stop();
@@ -210,9 +207,11 @@ public class MainGameView /* implements Initializable */{
     }
 
     public void timerResume(javafx.event.ActionEvent actionEvent){
-        //nur fortsetzen gegengtück zu timerpause
+        //nur fortsetzen gegengstück zu timerpause
         timeline.play();
     }
+
+
 }
 
 

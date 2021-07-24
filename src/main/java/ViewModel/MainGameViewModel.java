@@ -8,6 +8,7 @@ public class MainGameViewModel {
     private final MainGameModel gameModel = new MainGameModel();
     private StringProperty timer = new SimpleStringProperty();
 
+
     public MainGameViewModel() {
         gameModel.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> {
             timer.setValue(newValue.toString());
@@ -24,5 +25,9 @@ public class MainGameViewModel {
 
     public StringProperty timerProperty() {
         return timer;
+    }
+
+    public int getFlag(){
+        return gameModel.getFlagCount();
     }
 }

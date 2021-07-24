@@ -10,6 +10,7 @@ public class CellModel {
     private final int y;
     private final BoardModel boardModel;
     private final SimpleObjectProperty<CellState> cellState;
+    MainGameModel mainGameModel= new MainGameModel();
 
     public void setType(CellType type) {
         this.type.set(type);
@@ -100,8 +101,10 @@ public class CellModel {
     public void flag() {
         if (cellState.get() == CellState.FLAGGED) {
             cellState.set(CellState.CLOSED);
+            mainGameModel.setFlagCount(mainGameModel.getFlagCount()+1);
         } else if (cellState.get() == CellState.CLOSED) {
             cellState.set(CellState.FLAGGED);
+            mainGameModel.setFlagCount(mainGameModel.getFlagCount()-1);
         }
     }
 
