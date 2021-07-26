@@ -2,25 +2,30 @@ package Model;
 
 import ViewModel.BoardViewModel;
 import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.util.Duration;
+
+import java.io.IOException;
+import java.security.Key;
+import java.sql.Time;
 
 public class MainGameModel {
-    private final MenuModel menuModel = new MenuModel(this);
+    private final MenuModel menuModel = new MenuModel();
     private final BoardModel boardModel = new BoardModel();
     public int flagAmount=10;
     static IntegerProperty flagCount = new SimpleIntegerProperty(10);
-    private final Timeline timeline;
+    private Timeline timeline;
 
 
 
     public MainGameModel() {
-        timeline = new Timeline(60);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        startTimer();
+
     }
 
     public Timeline getTimeline() {
@@ -50,13 +55,16 @@ public class MainGameModel {
         return flagAmount;
     }
 
-    void start() {
-        // start the game
-        getFlagCount();
-        boardModel.initializeBoard(menuModel.boardInitializer);
+    private void startTimer() {
+        timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
-    void reset() {
+    public void start(){
+        startTimer();
+        flagCount.set(10);
+        boardModel.initializeBoard(menuModel.getBoardInitializer());
     }
 
 }

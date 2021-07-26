@@ -10,17 +10,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class CellViewModel {
-    private StringProperty number = new SimpleStringProperty();
-    private BooleanProperty isOpen = new SimpleBooleanProperty();
-    private BooleanProperty isFlagged = new SimpleBooleanProperty();
-    private BooleanProperty isBomb = new SimpleBooleanProperty();
-    private BooleanProperty showNumber = new SimpleBooleanProperty();
-    private CellModel model;
+    private final StringProperty number = new SimpleStringProperty();
+    private final BooleanProperty isOpen = new SimpleBooleanProperty();
+    private final BooleanProperty isFlagged = new SimpleBooleanProperty();
+    private final BooleanProperty isBomb = new SimpleBooleanProperty();
+    private final BooleanProperty showNumber = new SimpleBooleanProperty();
+    private final CellModel model;
 
     public CellViewModel(CellModel model) {
         this.model = model;
         this.isOpen.bind(model.cellStateProperty().isEqualTo(CellState.CLOSED).or(model.cellStateProperty().isEqualTo(CellState.FLAGGED)).not());
-        //this.isOpen.set(true);
         this.isFlagged.bind(model.cellStateProperty().isEqualTo(CellState.FLAGGED));
         this.isBomb.bind(model.cellStateProperty().isEqualTo(CellState.BOMB));
         this.isBomb.bind(model.typeProperty().isEqualTo(CellType.BOMB));

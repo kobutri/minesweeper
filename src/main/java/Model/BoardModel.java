@@ -3,6 +3,8 @@ package Model;
 import backend.BoardInitializer;
 import backend.CellType;
 import backend.WinState;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BoardModel {
-    private BoardInitializer boardInitializer;
     private final ObservableList<CellModel> cells = FXCollections.observableArrayList();
+    private final IntegerProperty cellsChanged = new SimpleIntegerProperty(0);
+    private final IntegerProperty flagCount = new SimpleIntegerProperty(0);
+    private BoardInitializer boardInitializer;
     private boolean boardGenerated = false;
     private boolean boardInitialized = false;
 
@@ -44,6 +48,22 @@ public class BoardModel {
         return chosenIndices;
     }
 
+    public int getFlagCount() {
+        return flagCount.get();
+    }
+
+    public IntegerProperty flagCountProperty() {
+        return flagCount;
+    }
+
+    public int getCellsChanged() {
+        return cellsChanged.get();
+    }
+
+    public IntegerProperty cellsChangedProperty() {
+        return cellsChanged;
+    }
+
     public boolean isBoardGenerated() {
         return boardGenerated;
     }
@@ -68,7 +88,7 @@ public class BoardModel {
         for (var bomb : bombs) {
             cells.get(bomb).setType(CellType.BOMB);
         }
-        for(var cell : cells) {
+        for (var cell : cells) {
             cell.setNumNeighboringBombs(neighboringBombs(cell.getX(), cell.getY()));
         }
         boardGenerated = true;
@@ -80,13 +100,14 @@ public class BoardModel {
         }
         this.boardInitializer = boardInitializer;
         cells.clear();
-            for (int y = 0; y < boardInitializer.getHeight(); y++) {
+        for (int y = 0; y < boardInitializer.getHeight(); y++) {
             for (int x = 0; x < boardInitializer.getWidth(); x++) {
                 cells.add(new CellModel(x, y, false, CellType.EMPTY, this));
             }
         }
         boardInitialized = true;
         boardGenerated = false;
+        cellsChanged.set(cellsChanged.get() + 1);
     }
 
     public WinState hasWon() {

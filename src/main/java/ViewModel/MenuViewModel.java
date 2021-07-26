@@ -4,6 +4,8 @@ import Model.MenuModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.io.IOException;
+
 public class MenuViewModel {
     private final MenuModel menuModel;
     IntegerProperty width = new SimpleIntegerProperty(0);
@@ -19,10 +21,16 @@ public class MenuViewModel {
         this.menuModel = menuModel;
         minWidth.setValue(menuModel.getMinWidth());
         minHeight.setValue(menuModel.getMinHeight());
-        minWidth.set(menuModel.getMinWidth());
         maxWidth.set(menuModel.getMaxWidth());
+        maxHeight.set(menuModel.getMaxHeight());
+        width.set(getMinWidth());
+        height.set(getMinHeight());
         minNumBombs.set(menuModel.getMinBombs());
         maxNumBombs.set(menuModel.getMaxBombs());
+
+        width.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setWidth((Integer) newValue));
+        height.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setHeight((Integer) newValue));
+        numBombs.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setNumBombs((Integer) newValue));
     }
 
     public int getMinNumBombs() {
@@ -95,10 +103,6 @@ public class MenuViewModel {
 
     public IntegerProperty maxHeightProperty() {
         return maxHeight;
-    }
-
-    public void start() {
-        menuModel.start();
     }
 
 }

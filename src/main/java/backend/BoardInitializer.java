@@ -1,25 +1,40 @@
 package backend;
 
 public final class BoardInitializer {
-    private final int width;
-    private final int height;
-    private final int numBombs;
+    private int width = 0;
+    private int height = 0;
+    private int numBombs = 0;
+
+    public BoardInitializer(int width, int height, int numBombs) {
+        this.width = width;
+        this.height = height;
+        this.numBombs = numBombs;
+    }
+
+    public BoardInitializer() {
+    }
 
     public int getWidth() {
         return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public int getHeight() {
         return height;
     }
 
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public int getNumBombs() {
         return numBombs;
     }
 
-    public BoardInitializer(int width, int height, int numBombs, int xNotABomb, int yNotABomb) {
-        this.width = width;
-        this.height = height;
+    public void setNumBombs(int numBombs) {
         this.numBombs = numBombs;
     }
 

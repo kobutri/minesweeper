@@ -5,36 +5,23 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainGameView">
-  <children>
       <AnchorPane fx:id="anchorPaneMenu" prefHeight="48.0" prefWidth="640.0">
-         <children>
             <Button fx:id="buttonRestart" layoutX="587.0" layoutY="2.0" mnemonicParsing="false" onAction="#restartButton" text="Restart" />
             <MenuButton fx:id="dropDownButton" layoutY="2.0" mnemonicParsing="false" text="Options">
               <items>
                 <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveState" text="Save" />
                 <MenuItem fx:id="loadButton" mnemonicParsing="false" onAction="#loadState" text="Load" />
-                  <MenuItem fx:id="menuButton" mnemonicParsing="false" onAction="#switchToScene1" text="Difficulty" />
+                  <MenuItem fx:id="menuButton" mnemonicParsing="false" onAction="#chooseDifficulty" text="Difficulty" />
                   <MenuItem fx:id="exitButton" mnemonicParsing="false" onAction="#exit" text="Exit Game" />
               </items>
             </MenuButton>
-         </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorPaneDisplay" prefHeight="45.0" prefWidth="640.0">
-         <children>
-            <Label fx:id="LabelBombs" layoutX="159.0" layoutY="10.0" prefHeight="25.0" prefWidth="68.0" text="Flags:  10" />
+            <Label fx:id="LabelBombs" layoutX="159.0" layoutY="10.0" prefHeight="25.0" prefWidth="150.0" text="Flags:  10" />
             <Label fx:id="LabelCounter" layoutX="424.0" layoutY="9.0" prefHeight="27.0" prefWidth="106.0" text="Time: 00:00" />
-         </children>
       </AnchorPane>
       <fx:include fx:id="board" source="board.fxml" />
-<!--      <AnchorPane fx:id="anchorPaneGrid" prefHeight="316.0" prefWidth="640.0">-->
-<!--         <AnchorPane fx:id="Board" prefHeight="400.0" prefWidth="600.0">-->
-<!--             <GridPane fx:id="grid3" hgap="10" vgap="10" />-->
-<!--         </AnchorPane>-->
-<!--      </AnchorPane>-->
-
-  </children>
 </VBox>

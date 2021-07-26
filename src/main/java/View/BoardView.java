@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+
 import java.io.IOException;
 
 public class BoardView {
@@ -16,10 +17,22 @@ public class BoardView {
 
     public void initialize(BoardModel boardModel) throws IOException {
         boardViewModel = new BoardViewModel(boardModel);
-        var fxml2 = getClass().getClassLoader().getResources("cell.fxml").nextElement();
-        boardViewModel.cellViewModels.forEach((integerIntegerPair, cellViewModel) -> {
+        boardViewModel.cellsChangedProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                FXMLLoader loader = new FXMLLoader(fxml2);
+                initialize();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        initialize();
+    }
+
+    private void initialize() throws IOException {
+        var fxml = getClass().getClassLoader().getResources("cell.fxml").nextElement();
+        grid.getChildren().clear();
+        boardViewModel.getCellViewModels().forEach((integerIntegerPair, cellViewModel) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(fxml);
                 Node cell = loader.load();
                 CellView controller = loader.getController();
                 controller.setViewModel(cellViewModel);

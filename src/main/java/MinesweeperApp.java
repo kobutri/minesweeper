@@ -18,7 +18,7 @@ public class MinesweeperApp extends Application {
         Parent root = loader.load();
         MainGameView controller = loader.getController();
         controller.initialize(primaryStage);
-        primaryStage.setScene(new Scene(root, 900, 1000));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

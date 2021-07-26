@@ -3,11 +3,16 @@ package Model;
 import backend.BoardInitializer;
 
 public class MenuModel {
-    BoardInitializer boardInitializer;
-    private MainGameModel gameModel;
+    private final BoardInitializer boardInitializer = new BoardInitializer(8, 8, 10);
+    int maxWidth = 10;
+    int maxHeight = 10;
+    int minWidth = 5;
+    int minHeight = 5;
+    int minBombs = 5;
+    int maxBombs = 10;
 
-    public MenuModel(MainGameModel mainGameModel) {
-        this.gameModel = mainGameModel;
+    public BoardInitializer getBoardInitializer() {
+        return boardInitializer;
     }
 
     public int getMaxWidth() {
@@ -32,16 +37,5 @@ public class MenuModel {
 
     public int getMaxBombs() {
         return maxBombs;
-    }
-
-    int maxWidth = 10;
-    int maxHeight = 10;
-    int minWidth = 5;
-    int minHeight = 5;
-    int minBombs = 5;
-    int maxBombs = 10;
-
-    public void start() {
-        gameModel.start();
     }
 }

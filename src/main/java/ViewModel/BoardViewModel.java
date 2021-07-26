@@ -1,33 +1,39 @@
 package ViewModel;
 
 import Model.BoardModel;
-import backend.BoardInitializer;
-import javafx.beans.property.StringProperty;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.util.Pair;
 
-import java.util.*;
-
 public class BoardViewModel {
-    public Map<Pair<Integer, Integer>, CellViewModel> cellViewModels = new HashMap<>();
-    private BoardModel boardModel;
-
-    public BoardViewModel() {
-        boardModel = new BoardModel();
-        initialize();
-    }
+    private final BoardModel boardModel;
+    private final ObservableMap<Pair<Integer, Integer>, CellViewModel> cellViewModels = FXCollections.observableHashMap();
+    private final IntegerProperty cellsChanged = new SimpleIntegerProperty(0);
 
     public BoardViewModel(BoardModel boardModel) {
         this.boardModel = boardModel;
+        boardModel.cellsChangedProperty().addListener((observable, oldValue, newValue) -> initialize());
         initialize();
     }
 
+    public ObservableMap<Pair<Integer, Integer>, CellViewModel> getCellViewModels() {
+        return cellViewModels;
+    }
+
+    public int getCellsChanged() {
+        return cellsChanged.get();
+    }
+
+    public IntegerProperty cellsChangedProperty() {
+        return cellsChanged;
+    }
+
     private void initialize() {
-        boardModel.initializeBoard(new BoardInitializer(8, 8, 10, 0, 0));
+        cellViewModels.clear();
         boardModel.getCells().forEach(cellModel -> cellViewModels.put(new Pair<>(cellModel.getX(), cellModel.getY()), new CellViewModel(cellModel)));
+        cellsChanged.set(cellsChanged.get()+1);
     }
 
 }
