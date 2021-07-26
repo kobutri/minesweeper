@@ -23,10 +23,11 @@ public class MenuViewModel {
         minHeight.setValue(menuModel.getMinHeight());
         maxWidth.set(menuModel.getMaxWidth());
         maxHeight.set(menuModel.getMaxHeight());
-        width.set(getMinWidth());
-        height.set(getMinHeight());
+        width.set(menuModel.getBoardInitializer().getWidth());
+        height.set(menuModel.getBoardInitializer().getHeight());
         minNumBombs.set(menuModel.getMinBombs());
         maxNumBombs.set(menuModel.getMaxBombs());
+        numBombs.set(menuModel.getBoardInitializer().getNumBombs());
 
         width.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setWidth((Integer) newValue));
         height.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setHeight((Integer) newValue));
