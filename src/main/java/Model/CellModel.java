@@ -74,6 +74,9 @@ public class CellModel {
         if(!boardModel.isBoardGenerated()) {
             boardModel.generateBoard(x, y);
         }
+        if (cellState.get() == CellState.FLAGGED) {
+            flag();
+        }
         if (type.get() == CellType.BOMB) {
             cellState.set(CellState.BOMB);
         } else if (numNeighboringBombs.get() == 0) {

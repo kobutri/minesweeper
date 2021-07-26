@@ -4,6 +4,7 @@ import backend.BoardInitializer;
 import backend.CellType;
 import backend.WinState;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,8 @@ public class BoardModel {
     private final ObservableList<CellModel> cells = FXCollections.observableArrayList();
     private final IntegerProperty cellsChanged = new SimpleIntegerProperty(0);
     private final IntegerProperty flagCount = new SimpleIntegerProperty(0);
+
+
     private BoardInitializer boardInitializer;
     private boolean boardGenerated = false;
     private boolean boardInitialized = false;
@@ -107,16 +110,17 @@ public class BoardModel {
         }
         boardInitialized = true;
         boardGenerated = false;
+        flagCount.set(0);
         cellsChanged.set(cellsChanged.get() + 1);
     }
 
     public WinState hasWon() {
         boolean shouldGameContinue = false;
-        for (int x = 0; x < boardInitializer.getWidth(); x++) {
-            for (int y = 0; y < boardInitializer.getHeight(); y++) {
-                if (isBomb(x, y) && cells.get(boardInitializer.indexFromIndex2D(x, y)).getOpen()) {
+        for (int x = 0; x < getBoardInitializer().getWidth(); x++) {
+            for (int y = 0; y < getBoardInitializer().getHeight(); y++) {
+                if (isBomb(x, y) && cells.get(getBoardInitializer().indexFromIndex2D(x, y)).getOpen()) {
                     return WinState.LOOSE;
-                } else if (!isBomb(x, y) && !cells.get(boardInitializer.indexFromIndex2D(x, y)).getOpen()) {
+                } else if (!isBomb(x, y) && !cells.get(getBoardInitializer().indexFromIndex2D(x, y)).getOpen()) {
                     shouldGameContinue = true;
                 }
             }
@@ -126,7 +130,7 @@ public class BoardModel {
 
     private boolean isBomb(int x, int y) {
         try {
-            var index = boardInitializer.indexFromIndex2D(x, y);
+            var index = getBoardInitializer().indexFromIndex2D(x, y);
             return cells.get(index).getType() == CellType.BOMB;
         } catch (IndexOutOfBoundsException e) {
             return false;

@@ -17,8 +17,6 @@ import java.sql.Time;
 public class MainGameModel {
     private final MenuModel menuModel = new MenuModel();
     private final BoardModel boardModel = new BoardModel();
-    public int flagAmount=10;
-    static IntegerProperty flagCount = new SimpleIntegerProperty(10);
     private Timeline timeline;
 
 
@@ -40,21 +38,6 @@ public class MainGameModel {
         return boardModel;
     }
 
-    public int getFlagCount() {
-        return flagCount.getValue();
-    }
-    public IntegerProperty getFlagProb(){
-        return flagCount;
-    }
-
-    public void setFlagCount(int i){
-        flagCount.setValue(i);
-    }
-
-    public int getFlagAmount(){
-        return flagAmount;
-    }
-
     private void startTimer() {
         timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
         timeline.setCycleCount(1);
@@ -63,7 +46,6 @@ public class MainGameModel {
 
     public void start(){
         startTimer();
-        flagCount.set(10);
         boardModel.initializeBoard(menuModel.getBoardInitializer());
     }
 
