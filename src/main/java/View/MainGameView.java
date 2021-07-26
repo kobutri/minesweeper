@@ -167,8 +167,8 @@ public class MainGameView implements Initializable {
 
 
     //teile Timeline
-    int seconds=0;
-    int minutes=0;
+    static int seconds=0;
+    static int minutes=0;
     String secondsString= String.format("%02d",seconds);
     String minutesString= String.format("%02d",minutes);
     Timeline timeline;
@@ -211,7 +211,21 @@ public class MainGameView implements Initializable {
         timeline.play();
     }
 
+    public int getSecons(){
+       return seconds;
+    }
 
+    public void setSeconds(int i){
+        seconds=i;
+    }
+
+    public static int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int i){
+
+    }
 }
 
 

@@ -1,17 +1,14 @@
 package Model;
 
-import ViewModel.BoardViewModel;
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class MainGameModel {
     private final MenuModel menuModel = new MenuModel(this);
     private final BoardModel boardModel = new BoardModel();
-    public int flagAmount=10;
+    static public int flagAmount=10;
     static IntegerProperty flagCount = new SimpleIntegerProperty(10);
     private final Timeline timeline;
 
@@ -48,6 +45,10 @@ public class MainGameModel {
 
     public int getFlagAmount(){
         return flagAmount;
+    }
+
+    public void setFlagAmount(int i){
+        flagAmount=i;
     }
 
     void start() {
