@@ -5,11 +5,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class MainGameViewModel {
-    private final MainGameModel gameModel = new MainGameModel();
+    private MainGameModel gameModel;
     private final StringProperty timer = new SimpleStringProperty();
     private final StringProperty remainingBombs = new SimpleStringProperty();
 
     public MainGameViewModel() {
+        gameModel = new MainGameModel();
+        initialize();
+    }
+
+    public MainGameViewModel(MainGameModel mainGameModel) {
+        this.gameModel = mainGameModel;
+        initialize();
+    }
+
+    private void initialize() {
         gameModel.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> {
             int minutes = (int) newValue.toMinutes();
             int seconds = (int) newValue.toSeconds();
@@ -44,5 +54,10 @@ public class MainGameViewModel {
     public void start() {
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
         gameModel.start();
+    }
+
+    public void restart() {
+        remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
+        gameModel.restart();
     }
 }

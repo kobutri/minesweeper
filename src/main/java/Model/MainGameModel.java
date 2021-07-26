@@ -1,29 +1,24 @@
 package Model;
 
-import ViewModel.BoardViewModel;
-import javafx.animation.Animation;
+import com.google.gson.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import org.hildan.fxgson.FxGson;
+
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.security.Key;
-import java.sql.Time;
+import java.lang.reflect.Type;
 
 public class MainGameModel {
-    private final MenuModel menuModel = new MenuModel();
-    private final BoardModel boardModel = new BoardModel();
+    private MenuModel menuModel = new MenuModel();
+    private BoardModel boardModel = new BoardModel();
     private Timeline timeline;
 
 
 
     public MainGameModel() {
-        startTimer();
-
+        timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
+        timeline.setCycleCount(1);
     }
 
     public Timeline getTimeline() {
@@ -38,15 +33,47 @@ public class MainGameModel {
         return boardModel;
     }
 
-    private void startTimer() {
-        timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-
     public void start(){
-        startTimer();
+        timeline.play();
         boardModel.initializeBoard(menuModel.getBoardInitializer());
     }
+
+    public void restart() {
+        timeline.playFromStart();
+        boardModel.initializeBoard(menuModel.getBoardInitializer());
+    }
+
+
+    public static MainGameModel deserialize(String json) {
+        JsonDeserializer<Timeline> deserializer = new JsonDeserializer<Timeline>() {
+            @Override
+            public Timeline deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                JsonObject jsonObject = json.getAsJsonObject();
+
+                Timeline timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
+                timeline.setCycleCount(1);
+                timeline.jumpTo(Duration.millis(jsonObject.get("time").getAsDouble()));
+
+                return timeline;
+            }
+        };
+        var gson = FxGson.coreBuilder().setPrettyPrinting().registerTypeAdapter(Timeline.class, deserializer).create();
+        return gson.fromJson(json, MainGameModel.class);
+    }
+
+    public String serialize() {
+        JsonSerializer<Timeline> serializer = new JsonSerializer<Timeline>() {
+            @Override
+            public JsonElement serialize(Timeline src, Type typeOfSrc, JsonSerializationContext context) {
+                JsonObject jsonTime = new JsonObject();
+                jsonTime.addProperty("time", src.getCurrentTime().toMillis());
+
+                return jsonTime;
+            }
+        };
+        var gson = FxGson.coreBuilder().setPrettyPrinting().registerTypeAdapter(Timeline.class, serializer).create();
+        return gson.toJson(this);
+    }
+
 
 }
