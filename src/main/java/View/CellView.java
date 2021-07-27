@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
+
 
 public class CellView {
     @FXML
@@ -39,14 +41,14 @@ public class CellView {
 
     private CellViewModel viewModel;
 
-    public void click(MouseEvent event) {
+    public void click(MouseEvent event) throws IOException {
         if (event.getButton() == MouseButton.PRIMARY) {
             var state = viewModel.open();
             if (state == WinState.WIN) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You Won");
                 alert.setTitle("Victory");
                 alert.setHeaderText("Good Job!");
-                Image image= new Image("https://icons.iconarchive.com/icons/iconshock/super-vista-business/72/trophy-icon.png");
+                Image image= new Image(String.valueOf(getClass().getClassLoader().getResources("trophy-icon.png").nextElement()));
                 alert.setGraphic(new ImageView(image));
                 alert.showAndWait();
             } else if (state == WinState.LOOSE) {
@@ -54,7 +56,7 @@ public class CellView {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You Lost");
                 alert.setTitle("Defeat");
                 alert.setHeaderText("Unlucky You!");
-                Image image= new Image("https://icons.iconarchive.com/icons/rokey/popo-emotions/72/after-boom-icon.png");
+                Image image= new Image(String.valueOf(getClass().getClassLoader().getResources("after-boom-icon.png").nextElement()));
                 alert.setGraphic(new ImageView(image));
                 alert.showAndWait();
             }
