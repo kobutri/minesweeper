@@ -23,11 +23,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.security.Key;
 import java.util.ResourceBundle;
+
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.hildan.fxgson.FxGson;
@@ -73,6 +78,10 @@ public class MainGameView {
     Label LabelCounter;
 
     private MainGameViewModel gameViewModel;
+    FileChooser fileLoader= new FileChooser();
+    String pathUser= System.getProperty("user.dir");
+    File saveDirec;
+    FileChooser fileSaver= new FileChooser();
 
     public void chooseDifficulty(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResources("menu.fxml").nextElement());
@@ -92,16 +101,44 @@ public class MainGameView {
     }
 
     public void saveState (){
+        saveDirec=new File(pathUser+"/minesweeper");
+        saveDirec.mkdirs();
+        fileSaver.setTitle("Save Game");
+        fileSaver.setInitialDirectory(saveDirec);
+        fileSaver.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Json Files", "*.json")
+        );
         var json = gameViewModel.getGameModel().serialize();
+        fileSaver.showOpenDialog(new Stage());
+        if(json !=null){
+            try {
+                FileWriter fileWriter = null;
+
+                fileWriter = new FileWriter(json);
+                fileWriter.write(json);
+                fileWriter.close();
+            } catch (IOException ex) {
+            }
+        }
     }
 
-    public void loadState(){
+    public void loadState() {
+        saveDirec=new File(pathUser+"/minesweeper");
+        saveDirec.mkdirs();
         // todo pick file
-        MainGameModel model = MainGameModel.deserialize("");
-        try {
-            initialize(model);
-        } catch (IOException e) {
-            e.printStackTrace();
+        fileLoader.setTitle("Choose your Game");
+        fileLoader.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Json Files", "*.json")
+        );
+        fileLoader.setInitialDirectory(saveDirec);
+        File gameLoad = fileLoader.showOpenDialog(new Stage());
+        if (gameLoad !=null) {
+            MainGameModel model = MainGameModel.deserialize(""+gameLoad);
+            try {
+                initialize(model);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
