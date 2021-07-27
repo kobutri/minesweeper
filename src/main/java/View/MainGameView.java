@@ -1,20 +1,11 @@
 package View;
 
 import Model.MainGameModel;
-import ViewModel.BoardViewModel;
 import ViewModel.MainGameViewModel;
-import com.google.gson.*;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,19 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.security.Key;
-import java.util.ResourceBundle;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.hildan.fxgson.FxGson;
 
 public class MainGameView {
     // FXML verknüpfungen
@@ -125,7 +108,6 @@ public class MainGameView {
     public void loadState() {
         saveDirec=new File(pathUser+"/minesweeper");
         saveDirec.mkdirs();
-        // todo pick file
         fileLoader.setTitle("Choose your Game");
         fileLoader.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Json Files", "*.json")

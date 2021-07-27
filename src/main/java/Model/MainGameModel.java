@@ -4,9 +4,7 @@ import com.google.gson.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import org.hildan.fxgson.FxGson;
-
 import javafx.util.Duration;
-
 import java.lang.reflect.Type;
 
 public class MainGameModel {
