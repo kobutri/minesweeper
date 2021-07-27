@@ -12,8 +12,6 @@ public class MinesweeperApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        var fxml = getClass().getResource("board.fxml");
-        assert fxml != null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent root = loader.load();
         MainGameView controller = loader.getController();
