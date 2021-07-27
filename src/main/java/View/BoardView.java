@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
@@ -37,7 +36,6 @@ public class BoardView {
         initialize();
 
 
-        grid.setMouseTransparent(true);
         grid.getTransforms().add(Transform.translate(0, 0));
         pane.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
             Rectangle rectangle = new Rectangle(newValue.getWidth(), newValue.getHeight());
@@ -66,21 +64,15 @@ public class BoardView {
                 grid.getTransforms().set(size - 1, transform);
             }
         });
-        pane.setOnMousePressed(event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                mousePosition = new Point2D(event.getX(), event.getY());
-            }
-        });
+        pane.setOnMousePressed(event -> mousePosition = new Point2D(event.getX(), event.getY()));
         pane.setOnMouseDragged(event -> {
-            if (event.isSecondaryButtonDown()) {
-                Point2D newMousePosition = new Point2D(event.getX(), event.getY());
-                Point2D mouseDelta = newMousePosition.subtract(mousePosition);
-                mousePosition = newMousePosition;
-                int size = grid.getTransforms().size();
-                Transform transform = grid.getTransforms().get(size - 1);
-                transform = Transform.translate(mouseDelta.getX(), mouseDelta.getY()).createConcatenation(transform);
-                grid.getTransforms().set(size - 1, transform);
-            }
+            Point2D newMousePosition = new Point2D(event.getX(), event.getY());
+            Point2D mouseDelta = newMousePosition.subtract(mousePosition);
+            mousePosition = newMousePosition;
+            int size = grid.getTransforms().size();
+            Transform transform = grid.getTransforms().get(size - 1);
+            transform = Transform.translate(mouseDelta.getX(), mouseDelta.getY()).createConcatenation(transform);
+            grid.getTransforms().set(size - 1, transform);
         });
     }
 

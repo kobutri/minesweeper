@@ -42,26 +42,28 @@ public class CellView {
     private CellViewModel viewModel;
 
     public void click(MouseEvent event) throws IOException {
-        if (event.getButton() == MouseButton.PRIMARY) {
-            var state = viewModel.open();
-            if (state == WinState.WIN) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "You Won");
-                alert.setTitle("Victory");
-                alert.setHeaderText("Good Job!");
-                Image image= new Image(String.valueOf(getClass().getClassLoader().getResources("trophy-icon.png").nextElement()));
-                alert.setGraphic(new ImageView(image));
-                alert.showAndWait();
-            } else if (state == WinState.LOOSE) {
-                viewModel.openAll();
-                Alert alert = new Alert(Alert.AlertType.ERROR, "You Lost");
-                alert.setTitle("Defeat");
-                alert.setHeaderText("Unlucky You!");
-                Image image= new Image(String.valueOf(getClass().getClassLoader().getResources("after-boom-icon.png").nextElement()));
-                alert.setGraphic(new ImageView(image));
-                alert.showAndWait();
+        if (event.isStillSincePress()) {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                var state = viewModel.open();
+                if (state == WinState.WIN) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "You Won");
+                    alert.setTitle("Victory");
+                    alert.setHeaderText("Good Job!");
+                    Image image= new Image(String.valueOf(getClass().getClassLoader().getResources("trophy-icon.png").nextElement()));
+                    alert.setGraphic(new ImageView(image));
+                    alert.showAndWait();
+                } else if (state == WinState.LOOSE) {
+                    viewModel.openAll();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "You Lost");
+                    alert.setTitle("Defeat");
+                    alert.setHeaderText("Unlucky You!");
+                    Image image= new Image(String.valueOf(getClass().getClassLoader().getResources("after-boom-icon.png").nextElement()));
+                    alert.setGraphic(new ImageView(image));
+                    alert.showAndWait();
+                }
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                viewModel.flag();
             }
-        } else if (event.getButton() == MouseButton.SECONDARY) {
-            viewModel.flag();
         }
     }
 

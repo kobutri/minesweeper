@@ -4,8 +4,6 @@ import Model.MenuModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-import java.io.IOException;
-
 public class MenuViewModel {
     private final MenuModel menuModel;
     IntegerProperty width = new SimpleIntegerProperty(0);
@@ -17,6 +15,7 @@ public class MenuViewModel {
     IntegerProperty minHeight = new SimpleIntegerProperty(0);
     IntegerProperty maxWidth = new SimpleIntegerProperty(0);
     IntegerProperty maxHeight = new SimpleIntegerProperty(0);
+
     public MenuViewModel(MenuModel menuModel) {
         this.menuModel = menuModel;
         minWidth.setValue(menuModel.getMinWidth());
@@ -26,11 +25,17 @@ public class MenuViewModel {
         width.set(menuModel.getBoardInitializer().getWidth());
         height.set(menuModel.getBoardInitializer().getHeight());
         minNumBombs.set(menuModel.getMinBombs());
-        maxNumBombs.set(menuModel.getMaxBombs());
+        maxNumBombs.set(menuModel.getMaxBombs(getWidth(), getHeight()));
         numBombs.set(menuModel.getBoardInitializer().getNumBombs());
 
-        width.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setWidth((Integer) newValue));
-        height.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setHeight((Integer) newValue));
+        width.addListener((observable, oldValue, newValue) -> {
+            menuModel.getBoardInitializer().setWidth((Integer) newValue);
+            maxNumBombs.set(menuModel.getMaxBombs(getWidth(), getHeight()));
+        });
+        height.addListener((observable, oldValue, newValue) -> {
+            menuModel.getBoardInitializer().setHeight((Integer) newValue);
+            maxNumBombs.set(menuModel.getMaxBombs(getWidth(), getHeight()));
+        });
         numBombs.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setNumBombs((Integer) newValue));
     }
 

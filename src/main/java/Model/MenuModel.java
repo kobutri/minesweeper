@@ -4,12 +4,11 @@ import backend.BoardInitializer;
 
 public class MenuModel {
     private final BoardInitializer boardInitializer = new BoardInitializer(8, 8, 10);
-    int maxWidth = 10;
-    int maxHeight = 10;
+    int maxWidth = 100;
+    int maxHeight = 100;
     int minWidth = 5;
     int minHeight = 5;
     int minBombs = 5;
-    int maxBombs = 10;
 
     public BoardInitializer getBoardInitializer() {
         return boardInitializer;
@@ -35,7 +34,7 @@ public class MenuModel {
         return minBombs;
     }
 
-    public int getMaxBombs() {
-        return maxBombs;
+    public int getMaxBombs(int width, int height) {
+        return Math.max(width*height/5, 10);
     }
 }
