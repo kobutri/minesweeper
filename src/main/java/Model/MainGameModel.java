@@ -31,47 +31,45 @@ public class MainGameModel {
         return boardModel;
     }
 
-    public void start(){
+    public void startBlank(){
         timeline.play();
-        boardModel.initializeBoard(menuModel.getBoardInitializer());
+        boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
 
     public void restart() {
         timeline.playFromStart();
-        boardModel.initializeBoard(menuModel.getBoardInitializer());
+        boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
 
 
     public static MainGameModel deserialize(String json) {
-        JsonDeserializer<Timeline> deserializer = new JsonDeserializer<Timeline>() {
-            @Override
-            public Timeline deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                JsonObject jsonObject = json.getAsJsonObject();
+        JsonDeserializer<Timeline> deserializer = (json1, typeOfT, context) -> {
+            JsonObject jsonObject = json1.getAsJsonObject();
 
-                Timeline timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
-                timeline.setCycleCount(1);
-                timeline.jumpTo(Duration.millis(jsonObject.get("time").getAsDouble()));
+            Timeline timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
+            timeline.setCycleCount(1);
+            timeline.jumpTo(Duration.millis(jsonObject.get("time").getAsDouble()));
 
-                return timeline;
-            }
+            return timeline;
         };
         var gson = FxGson.coreBuilder().setPrettyPrinting().registerTypeAdapter(Timeline.class, deserializer).create();
         return gson.fromJson(json, MainGameModel.class);
     }
 
     public String serialize() {
-        JsonSerializer<Timeline> serializer = new JsonSerializer<Timeline>() {
-            @Override
-            public JsonElement serialize(Timeline src, Type typeOfSrc, JsonSerializationContext context) {
-                JsonObject jsonTime = new JsonObject();
-                jsonTime.addProperty("time", src.getCurrentTime().toMillis());
+        JsonSerializer<Timeline> serializer = (src, typeOfSrc, context) -> {
+            JsonObject jsonTime = new JsonObject();
+            jsonTime.addProperty("time", src.getCurrentTime().toMillis());
 
-                return jsonTime;
-            }
+            return jsonTime;
         };
         var gson = FxGson.coreBuilder().setPrettyPrinting().registerTypeAdapter(Timeline.class, serializer).create();
         return gson.toJson(this);
     }
 
 
+    public void start() {
+        timeline.play();
+        boardModel.initializeBoard();
+    }
 }

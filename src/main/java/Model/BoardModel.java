@@ -97,7 +97,7 @@ public class BoardModel {
         boardGenerated = true;
     }
 
-    public void initializeBoard(BoardInitializer boardInitializer) {
+    public void initializeBlankBoard(BoardInitializer boardInitializer) {
         if (!boardInitializer.isValid()) {
             throw new IllegalArgumentException("board initializer invalid");
         }
@@ -153,5 +153,10 @@ public class BoardModel {
         for (var cell : cells) {
             cell.open();
         }
+    }
+
+    public void initializeBoard() {
+        boardInitialized = true;
+        cellsChanged.set(cellsChanged.get() + 1);
     }
 }

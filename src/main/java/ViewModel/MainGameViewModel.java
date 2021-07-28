@@ -26,9 +26,7 @@ public class MainGameViewModel {
             timer.set(String.format("Timer: %02d:%02d", minutes, seconds));
         });
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
-        gameModel.getBoardModel().flagCountProperty().addListener((observable, oldValue, newValue) -> {
-            remainingBombs.set("Remaining Bombs: " + (gameModel.getBoardModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
-        });
+        gameModel.getBoardModel().flagCountProperty().addListener((observable, oldValue, newValue) -> remainingBombs.set("Remaining Bombs: " + (gameModel.getBoardModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount())));
     }
 
     public String getRemainingBombs() {
@@ -51,13 +49,18 @@ public class MainGameViewModel {
         return timer;
     }
 
-    public void start() {
+    public void startBlank() {
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
-        gameModel.start();
+        gameModel.startBlank();
     }
 
     public void restart() {
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
         gameModel.restart();
+    }
+
+    public void start() {
+        remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
+        gameModel.start();
     }
 }
