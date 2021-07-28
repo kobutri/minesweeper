@@ -13,7 +13,9 @@ repositories {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.7'
     compile 'org.hildan.fxgson:fx-gson:4.0.1'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
 }
+
 
 
 

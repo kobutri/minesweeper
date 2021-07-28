@@ -2,6 +2,8 @@ package View;
 
 import Model.MainGameModel;
 import ViewModel.MainGameViewModel;
+import com.google.gson.JsonParser;
+import com.sun.javafx.scene.paint.GradientUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,11 +16,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class MainGameView {
     // FXML verknüpfungen
@@ -65,6 +69,7 @@ public class MainGameView {
     String pathUser= System.getProperty("user.dir");
     File saveDirec;
     FileChooser fileSaver= new FileChooser();
+    String newJson;
 
     public void chooseDifficulty(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResources("menu.fxml").nextElement());
@@ -92,19 +97,17 @@ public class MainGameView {
                 new FileChooser.ExtensionFilter("Json Files", "*.json")
         );
         var json = gameViewModel.getGameModel().serialize();
-        fileSaver.showOpenDialog(new Stage());
+        File file=fileSaver.showSaveDialog(new Stage());
         if(json !=null){
             try {
-                FileWriter fileWriter = null;
-
-                fileWriter = new FileWriter(json);
-                fileWriter.write(json);
-                fileWriter.close();
+                PrintWriter writer;
+                writer = new PrintWriter(file);
+                writer.println(json);
+                writer.close();
             } catch (IOException ex) {
             }
         }
     }
-
     public void loadState() {
         saveDirec=new File(pathUser+"/minesweeper");
         saveDirec.mkdirs();
@@ -113,9 +116,17 @@ public class MainGameView {
                 new FileChooser.ExtensionFilter("Json Files", "*.json")
         );
         fileLoader.setInitialDirectory(saveDirec);
-        File gameLoad = fileLoader.showOpenDialog(new Stage());
-        if (gameLoad !=null) {
-            MainGameModel model = MainGameModel.deserialize(""+gameLoad);
+        String path = fileLoader.showOpenDialog(new Stage()).getAbsolutePath();
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject data = (JSONObject) parser.parse(
+                    new FileReader(path));
+            newJson = data.toJSONString();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        if (newJson !=null) {
+            MainGameModel model = MainGameModel.deserialize(newJson);
             try {
                 initialize(model);
             } catch (IOException e) {
