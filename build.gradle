@@ -16,6 +16,12 @@ dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'ViewModel.Main'
+    }
+}
+
 
 
 
@@ -24,5 +30,7 @@ javafx {
     version = "11.0.2"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
+
+
 
 mainClassName = 'Main'
