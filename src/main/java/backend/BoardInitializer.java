@@ -6,6 +6,7 @@ public final class BoardInitializer {
     private int numBombs = 0;
 
     public BoardInitializer(int width, int height, int numBombs) {
+        //Konstruktor des BoardInitializer
         this.width = width;
         this.height = height;
         this.numBombs = numBombs;
@@ -14,6 +15,7 @@ public final class BoardInitializer {
     public BoardInitializer() {
     }
 
+    //Getter und Setter
     public int getWidth() {
         return width;
     }
@@ -39,12 +41,14 @@ public final class BoardInitializer {
     }
 
     public boolean isValid() {
+        //Prüfen von zulässiger Feldgröße
         return width > 0 && height > 0 &&
                 numBombs < width * height;
     }
 
     @Override
     public boolean equals(Object o) {
+        //Feldwerte vergleichen
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 

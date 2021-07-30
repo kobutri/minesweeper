@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MinesweeperApp extends Application {
+    //Lädt Mainspiel am Anfang beim Starten
 
 
 

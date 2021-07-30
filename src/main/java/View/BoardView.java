@@ -10,13 +10,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Transform;
-
 import java.io.IOException;
 
 public class BoardView {
 
     private final double minZoom = 1.0 / 10.0;
     private final double maxZoom = 10.0;
+    //View mit board.fxml verknüpfen
     @FXML
     GridPane grid;
     @FXML
@@ -25,6 +25,7 @@ public class BoardView {
     private Point2D mousePosition = null;
 
     public void initialize(BoardModel boardModel) throws IOException {
+        //alle Zoom/Scroll/Verschieben Operationen
         boardViewModel = new BoardViewModel(boardModel);
         boardViewModel.cellsChangedProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -77,6 +78,7 @@ public class BoardView {
     }
 
     private void initialize() throws IOException {
+        //füllt das Board mit Zellen
         grid.getTransforms().clear();
         grid.getTransforms().add(Transform.translate(0, 0));
         var fxml = getClass().getClassLoader().getResources("cell.fxml").nextElement();

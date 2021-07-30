@@ -12,8 +12,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 
-
 public class CellView {
+    //CellView mit cell.fxml verknüpfen
     @FXML
     Node closed;
 
@@ -30,6 +30,7 @@ public class CellView {
     Label number;
 
     public void setViewModel(CellViewModel viewModel) {
+        //Binden von ViewModel und Zellenzuständen bezüglich der Sichtbarkeit
         this.viewModel = viewModel;
         this.bomb.visibleProperty().bind(viewModel.isBombProperty());
         this.flag.visibleProperty().bind(viewModel.isFlaggedProperty());
@@ -41,6 +42,7 @@ public class CellView {
     private CellViewModel viewModel;
 
     public void click(MouseEvent event) throws IOException {
+        //Alle möglichen Mausklicks verarbeiten: Linksklick für Flagge oder auf Flagge, Rechtsklick auf Bombe oder keine Bombe
         if (event.isStillSincePress()) {
             if (event.getButton() == MouseButton.PRIMARY) {
                 var state = viewModel.open();

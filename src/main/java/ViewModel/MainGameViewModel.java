@@ -10,16 +10,19 @@ public class MainGameViewModel {
     private final StringProperty remainingBombs = new SimpleStringProperty();
 
     public MainGameViewModel() {
+        //Konstruktor des MainGameViewModel
         gameModel = new MainGameModel();
         initialize();
     }
 
     public MainGameViewModel(MainGameModel mainGameModel) {
+        //Konstruktor des MainGameViewModel mit übergebenem MainGameModel
         this.gameModel = mainGameModel;
         initialize();
     }
 
     private void initialize() {
+        //Board aus GameModel erstellen
         gameModel.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> {
             int minutes = (int) newValue.toMinutes();
             int seconds = (int) newValue.toSeconds();
@@ -29,6 +32,7 @@ public class MainGameViewModel {
         gameModel.getBoardModel().flagCountProperty().addListener((observable, oldValue, newValue) -> remainingBombs.set("Remaining Bombs: " + (gameModel.getBoardModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount())));
     }
 
+    //Getter
     public String getRemainingBombs() {
         return remainingBombs.get();
     }
@@ -50,16 +54,19 @@ public class MainGameViewModel {
     }
 
     public void startBlank() {
+        //Leerer Feld Start aus GameModel und verbleibende Bomben anzeigen
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
         gameModel.startBlank();
     }
 
     public void restart() {
+        //Feld neu Laden und Bombencounter anzeigen
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
         gameModel.restart();
     }
 
     public void start() {
+        //Feld Starten und Bombencounter anpassen
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));
         gameModel.start();
     }

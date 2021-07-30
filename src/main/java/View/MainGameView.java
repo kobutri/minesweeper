@@ -2,8 +2,6 @@ package View;
 
 import Model.MainGameModel;
 import ViewModel.MainGameViewModel;
-import com.google.gson.JsonParser;
-import com.sun.javafx.scene.paint.GradientUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +15,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import java.io.*;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.simple.JSONObject;
@@ -25,7 +22,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class MainGameView {
-    // FXML verknüpfungen
+    // MainGameView mit main.fxml
     @FXML
     Node board;
     @FXML
@@ -72,6 +69,7 @@ public class MainGameView {
     String newJson;
 
     public void chooseDifficulty(ActionEvent event) throws IOException {
+        //Sprung aus dem Spiel ins Menü
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResources("menu.fxml").nextElement());
         Parent root = loader.load();
         MenuView menuView = loader.getController();
@@ -85,10 +83,12 @@ public class MainGameView {
 
 
     public void restartButton() {
+        //soll Spiel und Timer zurücksetzen
         gameViewModel.restart();
     }
 
     public void saveState (){
+        //öffnet den FileChooser als FileSaver und erstellt Json Dateien mit Inhalt var json
         saveDirec=new File(pathUser+"/minesweeper");
         saveDirec.mkdirs();
         fileSaver.setTitle("Save Game");
@@ -109,6 +109,7 @@ public class MainGameView {
         }
     }
     public void loadState() {
+        //öffnet den Filechooser und liest die ausgewählte Datei mit einem JSONParser ein
         saveDirec=new File(pathUser+"/minesweeper");
         saveDirec.mkdirs();
         fileLoader.setTitle("Choose your Game");
@@ -136,6 +137,7 @@ public class MainGameView {
     }
 
     public void exit(javafx.event.ActionEvent actionEvent){
+        //schließt alle Fenster -> beendet das Spiel
         Stage stage = (Stage) buttonRestart.getScene().getWindow();
         stage.setOnCloseRequest(event -> stage.hide());
         stage.close();
@@ -144,6 +146,7 @@ public class MainGameView {
     }
 
     public void initialize() throws IOException {
+        //Feld erstellen ohne GameModel
         gameViewModel = new MainGameViewModel();
         boardController.initialize(gameViewModel.getGameModel().getBoardModel());
         LabelBombs.textProperty().bind(gameViewModel.remainingBombsProperty());
@@ -152,6 +155,7 @@ public class MainGameView {
     }
 
     public void initialize(MainGameModel gameModel) throws IOException {
+        //Feld erstellen mit GameModel
         gameViewModel = new MainGameViewModel(gameModel);
         boardController.initialize(gameViewModel.getGameModel().getBoardModel());
         LabelBombs.textProperty().bind(gameViewModel.remainingBombsProperty());

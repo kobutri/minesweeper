@@ -8,7 +8,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,12 +16,12 @@ public class BoardModel {
     private final IntegerProperty cellsChanged = new SimpleIntegerProperty(0);
     private final IntegerProperty flagCount = new SimpleIntegerProperty(0);
 
-
     private BoardInitializer boardInitializer;
     private boolean boardGenerated = false;
     private boolean boardInitialized = false;
 
     private static ArrayList<Integer> generateBombs(BoardInitializer initializer, int xNotABomb, int yNotABomb) {
+        //Bomben auf dem Feld verteilen
         int size = initializer.getWidth() * initializer.getHeight();
         ArrayList<Integer> chosenIndices = new ArrayList<>();
         ArrayList<Integer> indices = new ArrayList<>(size);
@@ -51,6 +50,7 @@ public class BoardModel {
         return chosenIndices;
     }
 
+    //einige Getter
     public int getFlagCount() {
         return flagCount.get();
     }
@@ -84,6 +84,7 @@ public class BoardModel {
     }
 
     public void generateBoard(int xNotABomb, int yNotABomb) {
+        // Board erstellen mit Bomben
         if (0 > xNotABomb || 0 > yNotABomb || boardInitializer.getWidth() <= xNotABomb || boardInitializer.getHeight() <= yNotABomb) {
             throw new IllegalArgumentException("initial clicked value out of board");
         }
@@ -98,6 +99,7 @@ public class BoardModel {
     }
 
     public void initializeBlankBoard(BoardInitializer boardInitializer) {
+        // Leeres Board erstellen
         if (!boardInitializer.isValid()) {
             throw new IllegalArgumentException("board initializer invalid");
         }
@@ -115,6 +117,7 @@ public class BoardModel {
     }
 
     public WinState hasWon() {
+        //erkennt ob Spiel gewonnen wurde oder ob es weiter gehen kann
         boolean shouldGameContinue = false;
         for (int x = 0; x < getBoardInitializer().getWidth(); x++) {
             for (int y = 0; y < getBoardInitializer().getHeight(); y++) {
@@ -129,6 +132,7 @@ public class BoardModel {
     }
 
     private boolean isBomb(int x, int y) {
+        //prüft ob das angeklickte Feld eine Bombe ist oder nicht
         try {
             var index = getBoardInitializer().indexFromIndex2D(x, y);
             return cells.get(index).getType() == CellType.BOMB;
@@ -138,6 +142,7 @@ public class BoardModel {
     }
 
     public int neighboringBombs(int x, int y) {
+        //Zählt die angrenzenden Bomben an eine Zelle
         int numBombs = 0;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -150,12 +155,14 @@ public class BoardModel {
     }
 
     public void openAll() {
+        //Deckt graue Felder auf
         for (var cell : cells) {
             cell.open();
         }
     }
 
     public void initializeBoard() {
+        //Feld laden
         boardInitialized = true;
         cellsChanged.set(cellsChanged.get() + 1);
     }

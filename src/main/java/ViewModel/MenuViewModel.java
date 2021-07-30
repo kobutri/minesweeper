@@ -17,6 +17,7 @@ public class MenuViewModel {
     IntegerProperty maxHeight = new SimpleIntegerProperty(0);
 
     public MenuViewModel(MenuModel menuModel) {
+        //Konstruktor MenuViewModel, Listener hinzufügen
         this.menuModel = menuModel;
         minWidth.setValue(menuModel.getMinWidth());
         minHeight.setValue(menuModel.getMinHeight());
@@ -39,6 +40,7 @@ public class MenuViewModel {
         numBombs.addListener((observable, oldValue, newValue) -> menuModel.getBoardInitializer().setNumBombs((Integer) newValue));
     }
 
+    //Getter
     public int getMinNumBombs() {
         return minNumBombs.get();
     }

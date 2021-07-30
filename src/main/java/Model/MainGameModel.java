@@ -15,10 +15,12 @@ public class MainGameModel {
 
 
     public MainGameModel() {
+        //Konstruktor von MainGameModel
         timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
         timeline.setCycleCount(1);
     }
 
+    //Getter
     public Timeline getTimeline() {
         return timeline;
     }
@@ -32,17 +34,20 @@ public class MainGameModel {
     }
 
     public void startBlank(){
+        //Leeres Feld starten und timer starten
         timeline.play();
         boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
 
     public void restart() {
+        //timer zurücksetzen und neu starten
         timeline.playFromStart();
         boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
 
 
     public static MainGameModel deserialize(String json) {
+        //gegebenen String json auslesen und Board+timer laden
         JsonDeserializer<Timeline> deserializer = (json1, typeOfT, context) -> {
             JsonObject jsonObject = json1.getAsJsonObject();
 
@@ -57,6 +62,7 @@ public class MainGameModel {
     }
 
     public String serialize() {
+        //Spielstand in json datei speichern
         JsonSerializer<Timeline> serializer = (src, typeOfSrc, context) -> {
             JsonObject jsonTime = new JsonObject();
             jsonTime.addProperty("time", src.getCurrentTime().toMillis());
@@ -69,6 +75,7 @@ public class MainGameModel {
 
 
     public void start() {
+        //Spiel starten, auch geladenes möglich
         timeline.play();
         boardModel.initializeBoard();
     }

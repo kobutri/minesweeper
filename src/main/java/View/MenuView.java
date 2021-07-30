@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 
 public class MenuView {
-
+//MenuView mit menu.fxml verknüpfen
     @FXML
     Button ButtonStart;
     @FXML
@@ -21,6 +21,7 @@ public class MenuView {
     private Stage stage;
 
     public void initialize(MenuModel menuModel, Stage stage) {
+        //Slider Werte dynamisch anpassen dazu binden mit MenuViewModel
         MenuViewModel menuViewModel = new MenuViewModel(menuModel);
         SliderX.minProperty().bind(menuViewModel.minWidthProperty());
         SliderX.maxProperty().bind(menuViewModel.maxWidthProperty());
@@ -38,6 +39,7 @@ public class MenuView {
     }
 
     public void StartMainGame(javafx.event.ActionEvent actionEvent) {
+        //Stage des Menü schließen
         stage.close();
     }
 }

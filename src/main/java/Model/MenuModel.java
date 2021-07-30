@@ -10,6 +10,7 @@ public class MenuModel {
     int minHeight = 5;
     int minBombs = 5;
 
+    //Getter
     public BoardInitializer getBoardInitializer() {
         return boardInitializer;
     }

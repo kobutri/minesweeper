@@ -18,6 +18,7 @@ public class CellViewModel {
     private final CellModel model;
 
     public CellViewModel(CellModel model) {
+        //Konstruktor des CellViewModels
         this.model = model;
         this.isOpen.bind(model.cellStateProperty().isEqualTo(CellState.CLOSED).or(model.cellStateProperty().isEqualTo(CellState.FLAGGED)).not());
         this.isFlagged.bind(model.cellStateProperty().isEqualTo(CellState.FLAGGED));
@@ -27,6 +28,7 @@ public class CellViewModel {
         this.showNumber.bind(model.cellStateProperty().isEqualTo(CellState.NUMBER));
     }
 
+    //Getter
     public boolean isShowNumber() {
         return showNumber.get();
     }
