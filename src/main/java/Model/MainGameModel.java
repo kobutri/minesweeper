@@ -58,7 +58,9 @@ public class MainGameModel {
             return timeline;
         };
         var gson = FxGson.coreBuilder().setPrettyPrinting().registerTypeAdapter(Timeline.class, deserializer).create();
-        return gson.fromJson(json, MainGameModel.class);
+        MainGameModel model =  gson.fromJson(json, MainGameModel.class);
+        model.getBoardModel().getCells().forEach(cellModel -> cellModel.setBoardModel(model.getBoardModel()));
+        return model;
     }
 
     public String serialize() {
