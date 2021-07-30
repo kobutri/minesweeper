@@ -141,6 +141,7 @@ public class BoardModel {
         }
     }
 
+
     public int neighboringBombs(int x, int y) {
         //Zählt die angrenzenden Bomben an eine Zelle
         int numBombs = 0;

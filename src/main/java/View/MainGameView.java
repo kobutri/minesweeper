@@ -15,6 +15,9 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.simple.JSONObject;
@@ -66,7 +69,6 @@ public class MainGameView {
     String pathUser= System.getProperty("user.dir");
     File saveDirec;
     FileChooser fileSaver= new FileChooser();
-    String newJson;
 
     public void chooseDifficulty(ActionEvent event) throws IOException {
         //Sprung aus dem Spiel ins Menü
@@ -117,22 +119,11 @@ public class MainGameView {
                 new FileChooser.ExtensionFilter("Json Files", "*.json")
         );
         fileLoader.setInitialDirectory(saveDirec);
-        String path = fileLoader.showOpenDialog(new Stage()).getAbsolutePath();
         try {
-            JSONParser parser = new JSONParser();
-            JSONObject data = (JSONObject) parser.parse(
-                    new FileReader(path));
-            newJson = data.toJSONString();
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-        if (newJson !=null) {
-            MainGameModel model = MainGameModel.deserialize(newJson);
-            try {
-                initialize(model);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String json = Files.readString(Path.of(fileLoader.showOpenDialog(new Stage()).getAbsolutePath()));
+            MainGameModel model = MainGameModel.deserialize(json);
+            initialize(model);
+        } catch (IOException ignored)  {
         }
     }
 
