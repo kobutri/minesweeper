@@ -70,8 +70,12 @@ public class MainGameView {
     File saveDirec;
     FileChooser fileSaver= new FileChooser();
 
+    /**
+     * Alle möglichen Mausklicks verarbeiten: Linksklick für Flagge oder auf Flagge, Rechtsklick auf Bombe oder keine Bombe
+     * @param event
+     * @throws IOException
+     */
     public void chooseDifficulty(ActionEvent event) throws IOException {
-        //Sprung aus dem Spiel ins Menü
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResources("menu.fxml").nextElement());
         Parent root = loader.load();
         MenuView menuView = loader.getController();
@@ -84,13 +88,18 @@ public class MainGameView {
     }
 
 
+    /**
+     * Setzt das Spiel und den Timer zurück
+     */
     public void restartButton() {
-        //soll Spiel und Timer zurücksetzen
+
         gameViewModel.restart();
     }
 
+    /**
+     * Öffnet den FileChooser als FileSaver und erstellt Json Dateien mit Inhalt var json
+     */
     public void saveState (){
-        //öffnet den FileChooser als FileSaver und erstellt Json Dateien mit Inhalt var json
         saveDirec=new File(pathUser+"/minesweeper");
         saveDirec.mkdirs();
         fileSaver.setTitle("Save Game");
@@ -110,8 +119,11 @@ public class MainGameView {
             }
         }
     }
+
+    /**
+     * Öffnet den Filechooser und liest die ausgewählte Datei mit einem JSONParser ein
+     */
     public void loadState() {
-        //öffnet den Filechooser und liest die ausgewählte Datei mit einem JSONParser ein
         saveDirec=new File(pathUser+"/minesweeper");
         saveDirec.mkdirs();
         fileLoader.setTitle("Choose your Game");
@@ -127,8 +139,11 @@ public class MainGameView {
         }
     }
 
+    /**
+     * Schließt alle Fenster -> beendet das Spiel
+     * @param actionEvent
+     */
     public void exit(javafx.event.ActionEvent actionEvent){
-        //schließt alle Fenster -> beendet das Spiel
         Stage stage = (Stage) buttonRestart.getScene().getWindow();
         stage.setOnCloseRequest(event -> stage.hide());
         stage.close();
@@ -136,8 +151,11 @@ public class MainGameView {
 
     }
 
+    /**
+     * Feld erstellen ohne GameModel
+     * @throws IOException
+     */
     public void initialize() throws IOException {
-        //Feld erstellen ohne GameModel
         gameViewModel = new MainGameViewModel();
         boardController.initialize(gameViewModel.getGameModel().getBoardModel());
         LabelBombs.textProperty().bind(gameViewModel.remainingBombsProperty());
@@ -145,8 +163,12 @@ public class MainGameView {
         gameViewModel.startBlank();
     }
 
+    /**
+     * Feld erstellen mit GameModel
+     * @param gameModel
+     * @throws IOException
+     */
     public void initialize(MainGameModel gameModel) throws IOException {
-        //Feld erstellen mit GameModel
         gameViewModel = new MainGameViewModel(gameModel);
         boardController.initialize(gameViewModel.getGameModel().getBoardModel());
         LabelBombs.textProperty().bind(gameViewModel.remainingBombsProperty());

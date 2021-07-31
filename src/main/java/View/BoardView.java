@@ -24,6 +24,11 @@ public class BoardView {
     private BoardViewModel boardViewModel;
     private Point2D mousePosition = null;
 
+    /**
+     * Initialisiert das BoardModel
+     * @param boardModel
+     * @throws IOException
+     */
     public void initialize(BoardModel boardModel) throws IOException {
         //alle Zoom/Scroll/Verschieben Operationen
         boardViewModel = new BoardViewModel(boardModel);
@@ -77,8 +82,12 @@ public class BoardView {
         });
     }
 
+    /**
+     * füllt das Board mit Zellen
+     * @throws IOException
+     */
     private void initialize() throws IOException {
-        //füllt das Board mit Zellen
+
         grid.getTransforms().clear();
         grid.getTransforms().add(Transform.translate(0, 0));
         var fxml = getClass().getClassLoader().getResources("cell.fxml").nextElement();

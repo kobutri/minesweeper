@@ -13,8 +13,15 @@ public class CellModel {
     private final SimpleObjectProperty<CellType> type = new SimpleObjectProperty<>();
     private final SimpleIntegerProperty numNeighboringBombs = new SimpleIntegerProperty();
 
+    /**
+     * Konstruktor CellModel
+     * @param x X Koordinate
+     * @param y Y Koordinate
+     * @param open
+     * @param type Enum zur Markierung des Zell Typens Bombe oder Leeres Feld
+     * @param boardModel
+     */
     public CellModel(int x, int y, boolean open, CellType type, BoardModel boardModel) {
-        //Konstruktor CellModel
         this.x = x;
         this.y = y;
         this.cellState = new SimpleObjectProperty<>(CellState.CLOSED);
@@ -73,8 +80,10 @@ public class CellModel {
         this.boardModel = boardModel;
     }
 
+    /**
+     * Methode um angrenzende graue Felder aufzudecken
+     */
     public void open() {
-        //Methode um angrenzende graue Felder aufzudecken
         if (!boardModel.isBoardGenerated()) {
             boardModel.generateBoard(x, y);
         }
@@ -104,9 +113,10 @@ public class CellModel {
         }
     }
 
+    /**
+     * setzt und entfernt Flaggen und zählt
+     */
     public void flag() {
-        //setzt und entfernt Flaggen und zählt
-
         if (cellState.get() == CellState.FLAGGED) {
             cellState.set(CellState.CLOSED);
             boardModel.flagCountProperty().set(boardModel.getFlagCount() - 1);

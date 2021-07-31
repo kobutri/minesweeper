@@ -20,8 +20,12 @@ public class MenuView {
     private Slider SliderBombs;
     private Stage stage;
 
+    /**
+     * Slider Werte dynamisch anpassen, dazu binden mit MenuViewModel
+     * @param menuModel
+     * @param stage
+     */
     public void initialize(MenuModel menuModel, Stage stage) {
-        //Slider Werte dynamisch anpassen dazu binden mit MenuViewModel
         MenuViewModel menuViewModel = new MenuViewModel(menuModel);
         SliderX.minProperty().bind(menuViewModel.minWidthProperty());
         SliderX.maxProperty().bind(menuViewModel.maxWidthProperty());
@@ -38,8 +42,11 @@ public class MenuView {
         this.stage = stage;
     }
 
+    /**
+     * Stage des Menü schließen
+     * @param actionEvent
+     */
     public void StartMainGame(javafx.event.ActionEvent actionEvent) {
-        //Stage des Menü schließen
         stage.close();
     }
 }

@@ -29,8 +29,11 @@ public class CellView {
     @FXML
     Label number;
 
+    /**
+     * Binden von ViewModel und Zellenzuständen bezüglich der Sichtbarkeit
+     * @param viewModel
+     */
     public void setViewModel(CellViewModel viewModel) {
-        //Binden von ViewModel und Zellenzuständen bezüglich der Sichtbarkeit
         this.viewModel = viewModel;
         this.bomb.visibleProperty().bind(viewModel.isBombProperty());
         this.flag.visibleProperty().bind(viewModel.isFlaggedProperty());
@@ -41,8 +44,12 @@ public class CellView {
 
     private CellViewModel viewModel;
 
+    /**
+     * Alle möglichen Mausklicks verarbeiten: Linksklick für Flagge oder auf Flagge, Rechtsklick auf Bombe oder keine Bombe
+     * @param event
+     * @throws IOException
+     */
     public void click(MouseEvent event) throws IOException {
-        //Alle möglichen Mausklicks verarbeiten: Linksklick für Flagge oder auf Flagge, Rechtsklick auf Bombe oder keine Bombe
         if (event.isStillSincePress()) {
             if (event.getButton() == MouseButton.PRIMARY) {
                 var state = viewModel.open();
