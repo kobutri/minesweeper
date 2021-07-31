@@ -17,8 +17,10 @@ public class CellViewModel {
     private final BooleanProperty showNumber = new SimpleBooleanProperty();
     private final CellModel model;
 
+    /**Konstruktor des CellViewModels
+     * @param model CellModel
+     */
     public CellViewModel(CellModel model) {
-        //Konstruktor des CellViewModels
         this.model = model;
         this.isOpen.bind(model.cellStateProperty().isEqualTo(CellState.CLOSED).or(model.cellStateProperty().isEqualTo(CellState.FLAGGED)).not());
         this.isFlagged.bind(model.cellStateProperty().isEqualTo(CellState.FLAGGED));
@@ -28,56 +30,95 @@ public class CellViewModel {
         this.showNumber.bind(model.cellStateProperty().isEqualTo(CellState.NUMBER));
     }
 
-    //Getter
+
+    /**Getter zu ShowNumber
+     * @return showNumber Value
+     */
     public boolean isShowNumber() {
         return showNumber.get();
     }
 
+    /**Getter zu showNumberProperty
+     * @return showNumber
+     */
     public BooleanProperty showNumberProperty() {
         return showNumber;
     }
 
+    /**Getter zu isOpen
+     * @return isOpen Value
+     */
     public boolean isIsOpen() {
         return isOpen.get();
     }
 
+    /**Getter zu isOpenProperty
+     * @return isOpen
+     */
     public BooleanProperty isOpenProperty() {
         return isOpen;
     }
 
+    /**Getter zu isFlagged
+     * @return isFlagged Value
+     */
     public boolean isIsFlagged() {
         return isFlagged.get();
     }
 
+    /**Getter zu isFlaggedProperty
+     * @return isFlagged
+     */
     public BooleanProperty isFlaggedProperty() {
         return isFlagged;
     }
 
+    /**Getter zu isBomb
+     * @return isBomb Value
+     */
     public boolean isIsBomb() {
         return isBomb.get();
     }
 
+    /**Getter zu isBombProperty
+     * @return isBomb
+     */
     public BooleanProperty isBombProperty() {
         return isBomb;
     }
 
+    /**Getter zu getNumber
+     * @return number Value
+     */
     public String getNumber() {
         return number.get();
     }
 
+    /**Getter zu numberProperty
+     * @return number
+     */
     public StringProperty numberProperty() {
         return number;
     }
 
+    /**im Falle von Sieg
+     * @return WinState
+     */
     public WinState open() {
         model.open();
         return model.getBoardModel().hasWon();
     }
 
+    /**Felder aufdecken
+     *
+     */
     public void openAll() {
         model.getBoardModel().openAll();
     }
 
+    /**Flaggen entfernen, hinzufügen
+     *
+     */
     public void flag() {
         model.flag();
     }

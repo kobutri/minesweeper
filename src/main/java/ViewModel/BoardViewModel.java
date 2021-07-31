@@ -12,28 +12,40 @@ public class BoardViewModel {
     private final ObservableMap<Pair<Integer, Integer>, CellViewModel> cellViewModels = FXCollections.observableHashMap();
     private final IntegerProperty cellsChanged = new SimpleIntegerProperty(0);
 
+    /** Konstruktor BoardViewModel
+     * @param boardModel BoardModel
+     */
     public BoardViewModel(BoardModel boardModel) {
-        //Konstruktor BoardViewModel
         this.boardModel = boardModel;
         boardModel.cellsChangedProperty().addListener((observable, oldValue, newValue) -> initialize());
         initialize();
     }
 
-    //Getter
+    /** Getter zu CellViewModels
+     * @return cellViewModels CellViewModel
+     */
     public ObservableMap<Pair<Integer, Integer>, CellViewModel> getCellViewModels() {
         return cellViewModels;
     }
 
+    /**Getter zu cellsChanged
+     * @return cellsChanged Value
+     */
     public int getCellsChanged() {
         return cellsChanged.get();
     }
 
+    /**Getter zu cellsChangedProperty
+     * @return cellsChanged
+     */
     public IntegerProperty cellsChangedProperty() {
         return cellsChanged;
     }
 
+    /**Board laden mit Zellen
+     *
+     */
     private void initialize() {
-        //Board laden mit Zellen
         cellViewModels.clear();
         boardModel.getCells().forEach(cellModel -> cellViewModels.put(new Pair<>(cellModel.getX(), cellModel.getY()), new CellViewModel(cellModel)));
         cellsChanged.set(cellsChanged.get()+1);
