@@ -25,7 +25,7 @@ public class MainGameViewModel {
         //Board aus GameModel erstellen
         gameModel.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> {
             int minutes = (int) newValue.toMinutes();
-            int seconds = (int) newValue.toSeconds();
+            int seconds = (int) newValue.toSeconds()%60;
             timer.set(String.format("Timer: %02d:%02d", minutes, seconds));
         });
         remainingBombs.set("Remaining Bombs: " + (gameModel.getMenuModel().getBoardInitializer().getNumBombs() - gameModel.getBoardModel().getFlagCount()));

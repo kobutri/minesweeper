@@ -5,7 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import org.hildan.fxgson.FxGson;
 import javafx.util.Duration;
-import java.lang.reflect.Type;
 
 public class MainGameModel {
     private MenuModel menuModel = new MenuModel();
@@ -44,7 +43,6 @@ public class MainGameModel {
         timeline.playFromStart();
         boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
-
 
     public static MainGameModel deserialize(String json) {
         //gegebenen String json auslesen und Board+timer laden
