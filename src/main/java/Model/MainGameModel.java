@@ -12,9 +12,10 @@ public class MainGameModel {
     private Timeline timeline;
 
 
-
+    /**Konstruktor von MainGameModel
+     *
+     */
     public MainGameModel() {
-        //Konstruktor von MainGameModel
         timeline = new Timeline(new KeyFrame(Duration.INDEFINITE));
         timeline.setCycleCount(1);
     }
@@ -32,20 +33,29 @@ public class MainGameModel {
         return boardModel;
     }
 
+    /**Leeres Feld starten und timer starten
+     *
+     */
     public void startBlank(){
-        //Leeres Feld starten und timer starten
+
         timeline.play();
         boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
 
+    /**timer zurücksetzen und neu starten
+     *
+     */
     public void restart() {
-        //timer zurücksetzen und neu starten
+
         timeline.playFromStart();
         boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
 
+    /**gegebenen String json auslesen und Board+timer laden
+     * @param json String
+     * @return timeline Timeline oder MainGameModel model
+     */
     public static MainGameModel deserialize(String json) {
-        //gegebenen String json auslesen und Board+timer laden
         JsonDeserializer<Timeline> deserializer = (json1, typeOfT, context) -> {
             JsonObject jsonObject = json1.getAsJsonObject();
 
@@ -61,8 +71,10 @@ public class MainGameModel {
         return model;
     }
 
+    /**Spielstand in json datei speichern
+     * @return json Datei
+     */
     public String serialize() {
-        //Spielstand in json datei speichern
         JsonSerializer<Timeline> serializer = (src, typeOfSrc, context) -> {
             JsonObject jsonTime = new JsonObject();
             jsonTime.addProperty("time", src.getCurrentTime().toMillis());
@@ -74,8 +86,10 @@ public class MainGameModel {
     }
 
 
+    /**Spiel starten, auch geladenes möglich
+     *
+     */
     public void start() {
-        //Spiel starten, auch geladenes möglich
         timeline.play();
         boardModel.initializeBoard();
     }

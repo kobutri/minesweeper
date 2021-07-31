@@ -1,6 +1,8 @@
 package View;
 
+import Model.MainGameModel;
 import Model.MenuModel;
+import ViewModel.MainGameViewModel;
 import ViewModel.MenuViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

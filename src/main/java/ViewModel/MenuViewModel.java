@@ -16,8 +16,10 @@ public class MenuViewModel {
     IntegerProperty maxWidth = new SimpleIntegerProperty(0);
     IntegerProperty maxHeight = new SimpleIntegerProperty(0);
 
+    /**Konstruktor MenuViewModel, Listener hinzufügen
+     * @param menuModel MenuModel
+     */
     public MenuViewModel(MenuModel menuModel) {
-        //Konstruktor MenuViewModel, Listener hinzufügen
         this.menuModel = menuModel;
         minWidth.setValue(menuModel.getMinWidth());
         minHeight.setValue(menuModel.getMinHeight());
