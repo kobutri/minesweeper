@@ -38,7 +38,7 @@ public class MainGameModel {
      */
     public void startBlank(){
 
-        timeline.play();
+        timeline.playFromStart();
         boardModel.initializeBlankBoard(menuModel.getBoardInitializer());
     }
 
